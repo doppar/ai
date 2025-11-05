@@ -17,6 +17,7 @@ class Pipeline
         bool $tokenize = true,
         int $maxNewTokens = 256,
         bool $returnFullText = false,
+        ?string $tgtLang = null,
     ): mixed
     {
         if ($task === TaskEnum::TEXT_GENERATION) {
@@ -28,19 +29,27 @@ class Pipeline
 
                 $input = $generator->tokenizer->applyChatTemplate($messages, addGenerationPrompt: true, tokenize: false);
 
-                $output = $generator($input, maxNewTokens: 256, returnFullText: false);
+                $output = $generator($input, maxNewTokens: $maxNewTokens, returnFullText: $returnFullText);
 
                 return $output;
             }
 
             throw new \Exception('No messages provided');
-        } else {
+        }else if ($task === TaskEnum::TRANSLATION) {
+            $translator = pipeline('translation', 'Xenova/m2m100_418M');
+
+            $output = $translator($data, tgtLang: $tgtLang, maxNewTokens: $maxNewTokens);
+        } 
+        
+        else {
             if($data === null) {
                 throw new \Exception('No data provided');
             }
             $classifier = pipeline($task->value, quantized: $quantized, modelName: $model);
+            
+            $output = $classifier($data);
         }
 
-        return $classifier($data);
+        return $output;
     }
 }
