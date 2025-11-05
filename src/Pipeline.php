@@ -18,6 +18,9 @@ class Pipeline
         int $maxNewTokens = 256,
         bool $returnFullText = false,
         ?string $tgtLang = null,
+        ?string $question = null,
+        ?string $context = null,
+        int $topK = 1,
     ): mixed
     {
         if ($task === TaskEnum::TEXT_GENERATION) {
@@ -36,11 +39,15 @@ class Pipeline
 
             throw new \Exception('No messages provided');
         }else if ($task === TaskEnum::TRANSLATION) {
-            $translator = pipeline('translation', 'Xenova/m2m100_418M');
+            $translator = pipeline('translation', $model);
 
             $output = $translator($data, tgtLang: $tgtLang, maxNewTokens: $maxNewTokens);
-        } 
-        
+        }
+        else if ($task === TaskEnum::QUESTION_ANSWERING) {
+            $questionAnswerer = pipeline('question-answering', $model);
+
+            $output = $questionAnswerer($question, $context, topK: $topK);
+        }
         else {
             if($data === null) {
                 throw new \Exception('No data provided');
@@ -51,5 +58,46 @@ class Pipeline
         }
 
         return $output;
+    }
+
+    public static function query(
+        array|object|string $item,
+        string $question,
+        ?string $model = null,
+        int $topK = 1,
+    ): mixed
+    {
+        if (is_array($item)) {
+            $row = $item;
+        } else if (is_object($item)) {
+            if (method_exists($item, 'toArray')) {
+                $row = $item->toArray();
+            } else {
+                $row = get_object_vars($item);
+            }
+        } else {
+            $row = ['value' => $item];
+        }
+
+        $schema = array_keys($row);
+
+        $context = "Object:" . "\n" . json_encode($row, JSON_UNESCAPED_UNICODE) . "\n\n";
+
+        $output = self::execute(
+            TaskEnum::QUESTION_ANSWERING, 
+            model: $model,
+            question : $question,
+            context : $context,
+            topK : $topK
+        );
+
+        dd($output);
+
+        $text = is_array($output) && isset($output[0]['generated_text']) ? $output[0]['generated_text'] : (string)($output['generated_text'] ?? $output);
+
+        if(str_contains(strtolower($text), 'yes')) {
+            return true;
+        }
+        return false;
     }
 }
