@@ -1,0 +1,60 @@
+{
+  "name": "doppar/transformer",
+  "description": "Doppar/Transformer is a developer profiling and debugging toolbar for Doppar framework",
+  "keywords": ["doppar", "transformer", "llm", "language", "model"],
+  "homepage": "https://doppar.com/versions/3.x/doppar-transformer.html",
+  "type": "library",
+  "license": "MIT",
+  "support": {
+    "issues": "https://github.com/doppar/transformer/issues",
+    "source": "https://github.com/doppar/transformer"
+  },
+  "authors": [
+        {
+            "name": "Pierre S"
+        }
+    ],
+  "autoload": {
+    "psr-4": {
+      "Doppar\\Transformer\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=8.1",
+    "doppar/framework": "^2.9"
+  },
+  "extra": {
+    "doppar": {
+      "providers": [
+        "Doppar\\Transformer\\TransformerServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload-dev": {
+    "psr-4": {
+      "Doppar\\Transformer\\Tests\\": "tests/"
+    }
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.89",
+    "phpstan/phpstan": "^2.1",
+    "phpunit/phpunit": "^12.4"
+  },
+  "scripts": {
+    "phpstan": "phpstan analyse --level=8 --memory-limit=2G",
+    "cs-fix": "php-cs-fixer fix",
+    "cs-check": "php-cs-fixer fix --dry-run --diff",
+    "test": "phpunit",
+    "analyse": [
+      "@phpstan",
+      "@cs-check"
+    ]
+  },
+  "config": {
+    "allow-plugins": {
+      "codewithkyrian/platform-package-installer": true
+    }
+  }
+}
