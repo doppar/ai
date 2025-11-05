@@ -6,6 +6,7 @@ Use AI directly in PHP, self host model ! using TransformersPHP : https://transf
 
 ```shell
 composer require doppar/transformer
+composer require codewithkyrian/transformers
 ```
 Make sure FFI is enabled in your php.ini file. 
 Do not let it in `preload` mode.
