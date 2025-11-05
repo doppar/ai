@@ -2,6 +2,20 @@
 
 Use AI directly in PHP, self host model ! using TransformersPHP : https://transformers.codewithkyrian.com/
 
+### Installation
+
+```shell
+composer require doppar/transformer
+```
+Make sure FFI is enabled in your php.ini file. 
+Do not let it in `preload` mode.
+
+OR : start php server with -d ffi.enable=1
+
+```shell
+php pool -d ffi.enable=1 server:start
+```
+
 ### How to use :
 
 #### Quick test with package command : 
@@ -10,7 +24,7 @@ Use AI directly in PHP, self host model ! using TransformersPHP : https://transf
 php pool transformer:run "Hello, how are you ?"
 ```
 
-#### Quick test with package command : 
+#### Use it in controller : 
 
 ```php
 use Doppar\Transformer\Pipeline;
