@@ -14,7 +14,7 @@ Do not let it in `preload` mode.
 OR : start php server with -d ffi.enable=1
 
 ```shell
-php pool -d ffi.enable=1 server:start
+php -d ffi.enable=1 -S localhost:8000 -t public server.php 
 ```
 
 ### How to use :
