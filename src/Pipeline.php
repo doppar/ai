@@ -3,6 +3,7 @@
 namespace Doppar\Transformer;
 
 use Doppar\Transformer\Enum\TaskEnum;
+use Doppar\Transformer\TaskFactory\TaskFactory;
 use function Codewithkyrian\Transformers\Pipelines\pipeline;
 
 class Pipeline
@@ -22,128 +23,23 @@ class Pipeline
         ?string $context = null,
         int $topK = 1,
         array $candidateLabels = [],
-        ?string $imageUrl = null,
     ): mixed
     {
-        if ($task === TaskEnum::TEXT_GENERATION) {
-            if(empty($model)) {
-                $model = 'Xenova/TinyLlama-1.1B-Chat-v1.0';
-            }
-            $generator = pipeline($task->value, modelName: $model);
-            if (!empty($messages)) {
-
-                $input = $generator->tokenizer->applyChatTemplate($messages, addGenerationPrompt: true, tokenize: false);
-
-                $output = $generator($input, maxNewTokens: $maxNewTokens, returnFullText: $returnFullText);
-
-                return $output;
-            }
-
-            throw new \Exception('No messages provided');
-        }else if ($task === TaskEnum::TRANSLATION) {
-            $translator = pipeline('translation', $model);
-
-            $output = $translator($data, tgtLang: $tgtLang, maxNewTokens: $maxNewTokens);
-        }
-        else if ($task === TaskEnum::QUESTION_ANSWERING) {
-            $questionAnswerer = pipeline('question-answering', $model);
-
-            $output = $questionAnswerer($question, $context, topK: $topK);
-        }
-        else if ($task === TaskEnum::ZERO_SHOT_CLASSIFICATION) {
-            if (empty($model)) {
-                $model = 'Xenova/distilbert-base-uncased-mnli';
-            }
-            if (empty($candidateLabels)) {
-                throw new \Exception('No candidate labels provided');
-            }
-            $classifier = pipeline('zero-shot-classification', $model);
-            $output = $classifier($data, $candidateLabels);
-            return $output;
-        }
-        else if ($task === TaskEnum::FILL_MASK) {
-            if (empty($model)) {
-                $model = 'Xenova/bert-base-uncased';
-            }
-            $unmasker = pipeline('fill-mask', $model);
-            $output = $unmasker($data, topK: $topK);
-            return $output;
-        }
-        else if ($task === TaskEnum::TEXT_CLASSIFICATION) {
-            if (empty($model)) {
-                $model = 'Xenova/distilbert-base-uncased-finetuned-sst-2-english';
-            }
-            if (empty($data)) {
-                throw new \Exception('No data provided for text classification');
-            }
-            $classifier = pipeline('text-classification', $model);
-            $output = $classifier($data);
-            return $output;
-        }
-        else if ($task === TaskEnum::SUMMARIZATION) {
-            if (empty($model)) {
-                $model = 'Xenova/distilbart-cnn-6-6';
-            }
-            if (empty($data)) {
-                throw new \Exception('No data provided for summarization');
-            }
-            $summarizer = pipeline('summarization', $model);
-            $output = $summarizer($data, maxNewTokens: $maxNewTokens);
-            return $output;
-        }
-        else if ($task === TaskEnum::TOKEN_CLASSIFICATION) {
-            if (empty($model)) {
-                $model = 'Xenova/bert-base-NER';
-            }
-            if (empty($data)) {
-                throw new \Exception('No data provided for token classification');
-            }
-            $classifier = pipeline('token-classification', $model);
-            $output = $classifier($data);
-            return $output;
-        }
-        // FEATURE EXTRACTION / EMBEDDING
-        else if ($task === TaskEnum::FEATURE_EXTRACTION || $task === TaskEnum::EMBEDDING) {
-            if (empty($model)) {
-                $model = 'Xenova/all-MiniLM-L6-v2';
-            }
-            if (empty($data)) {
-                throw new \Exception('No data provided for feature extraction');
-            }
-            $extractor = pipeline('feature-extraction', $model);
-            $output = $extractor($data);
-            return $output;
-        }
-        else if ($task === TaskEnum::IMAGE_CLASSIFICATION) {
-            if (empty($model)) {
-                $model = 'Xenova/vit-base-patch16-224';
-            }
-            if (empty($imageUrl)) {
-                throw new \Exception('No image URL provided for image classification');
-            }
-            $classifier = pipeline('image-classification', $model);
-            $output = $classifier($imageUrl, topK: $topK);
-            return $output;
-        }
-        else if ($task === TaskEnum::IMAGE_TO_TEXT) {
-            if (empty($model)) {
-                $model = 'Xenova/vit-gpt2-image-captioning';
-            }
-            if (empty($imageUrl)) {
-                throw new \Exception('No image URL provided');
-            }
-            $captioner = pipeline('image-to-text', $model);
-            $output = $captioner($imageUrl, maxNewTokens: $maxNewTokens);
-            return $output;
-        }
-        else {
-            if($data === null) {
-                throw new \Exception('No data provided');
-            }
-            $classifier = pipeline($task->value, quantized: $quantized, modelName: $model);
-            
-            $output = $classifier($data);
-        }
+        $output = TaskFactory::create($task)->execute([
+            'data' => $data,
+            'model' => $model,
+            'quantized' => $quantized,
+            'messages' => $messages,
+            'addGenerationPrompt' => $addGenerationPrompt,
+            'tokenize' => $tokenize,
+            'maxNewTokens' => $maxNewTokens,
+            'returnFullText' => $returnFullText,
+            'tgtLang' => $tgtLang,
+            'question' => $question,
+            'context' => $context,
+            'topK' => $topK,
+            'candidateLabels' => $candidateLabels,
+        ]);
 
         return $output;
     }
@@ -167,8 +63,6 @@ class Pipeline
             $row = ['value' => $item];
         }
 
-        $schema = array_keys($row);
-
         $context = "Object:" . "\n" . json_encode($row, JSON_UNESCAPED_UNICODE) . "\n\n";
 
         $output = self::execute(
@@ -178,8 +72,6 @@ class Pipeline
             context : $context,
             topK : $topK
         );
-
-        dd($output);
 
         $text = is_array($output) && isset($output[0]['generated_text']) ? $output[0]['generated_text'] : (string)($output['generated_text'] ?? $output);
 
