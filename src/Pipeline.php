@@ -90,6 +90,17 @@ class Pipeline
             $output = $summarizer($data, maxNewTokens: $maxNewTokens);
             return $output;
         }
+        else if ($task === TaskEnum::TOKEN_CLASSIFICATION) {
+            if (empty($model)) {
+                $model = 'Xenova/bert-base-NER';
+            }
+            if (empty($data)) {
+                throw new \Exception('No data provided for token classification');
+            }
+            $classifier = pipeline('token-classification', $model);
+            $output = $classifier($data);
+            return $output;
+        }
         else {
             if($data === null) {
                 throw new \Exception('No data provided');

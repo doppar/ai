@@ -12,4 +12,5 @@ enum TaskEnum: string
     case FILL_MASK = 'fill-mask';
     case SUMMARIZATION = 'summarization';
     case TEXT_CLASSIFICATION = 'text-classification';
+    case TOKEN_CLASSIFICATION = 'token-classification';
 }
