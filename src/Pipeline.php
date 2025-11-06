@@ -22,6 +22,7 @@ class Pipeline
         ?string $context = null,
         int $topK = 1,
         array $candidateLabels = [],
+        ?string $imageUrl = null,
     ): mixed
     {
         if ($task === TaskEnum::TEXT_GENERATION) {
@@ -111,6 +112,17 @@ class Pipeline
             }
             $extractor = pipeline('feature-extraction', $model);
             $output = $extractor($data);
+            return $output;
+        }
+        else if ($task === TaskEnum::IMAGE_CLASSIFICATION) {
+            if (empty($model)) {
+                $model = 'Xenova/vit-base-patch16-224';
+            }
+            if (empty($imageUrl)) {
+                throw new \Exception('No image URL provided for image classification');
+            }
+            $classifier = pipeline('image-classification', $model);
+            $output = $classifier($imageUrl, topK: $topK);
             return $output;
         }
         else {

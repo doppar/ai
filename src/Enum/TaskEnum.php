@@ -15,4 +15,6 @@ enum TaskEnum: string
     case TOKEN_CLASSIFICATION = 'token-classification';
     case FEATURE_EXTRACTION = 'feature-extraction';
     case EMBEDDING = 'embedding';
+
+    case IMAGE_CLASSIFICATION = 'image-classification';
 }
