@@ -9,4 +9,5 @@ enum TaskEnum: string
     case TRANSLATION = 'translation';
     case QUESTION_ANSWERING = 'question-answering';
     case ZERO_SHOT_CLASSIFICATION = 'zero-shot-classification';
+    case FILL_MASK = 'fill-mask';
 }
