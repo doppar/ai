@@ -60,6 +60,14 @@ class Pipeline
             $output = $classifier($data, $candidateLabels);
             return $output;
         }
+        else if ($task === TaskEnum::FILL_MASK) {
+            if (empty($model)) {
+                $model = 'Xenova/bert-base-uncased';
+            }
+            $unmasker = pipeline('fill-mask', $model);
+            $output = $unmasker($data, topK: $topK);
+            return $output;
+        }
         else {
             if($data === null) {
                 throw new \Exception('No data provided');
