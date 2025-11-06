@@ -11,6 +11,7 @@ enum TaskEnum: string
     case ZERO_SHOT_CLASSIFICATION = 'zero-shot-classification';
     case FILL_MASK = 'fill-mask';
     case SUMMARIZATION = 'summarization';
+
     case TEXT_CLASSIFICATION = 'text-classification';
     case TOKEN_CLASSIFICATION = 'token-classification';
     case FEATURE_EXTRACTION = 'feature-extraction';

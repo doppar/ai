@@ -23,6 +23,7 @@ class Pipeline
         ?string $context = null,
         int $topK = 1,
         array $candidateLabels = [],
+        ?string $imageUrl = null
     ): mixed
     {
         $output = TaskFactory::create($task)->execute([
@@ -39,6 +40,7 @@ class Pipeline
             'context' => $context,
             'topK' => $topK,
             'candidateLabels' => $candidateLabels,
+            'imageUrl' => $imageUrl,
         ]);
 
         return $output;
