@@ -101,6 +101,18 @@ class Pipeline
             $output = $classifier($data);
             return $output;
         }
+        // FEATURE EXTRACTION / EMBEDDING
+        else if ($task === TaskEnum::FEATURE_EXTRACTION || $task === TaskEnum::EMBEDDING) {
+            if (empty($model)) {
+                $model = 'Xenova/all-MiniLM-L6-v2';
+            }
+            if (empty($data)) {
+                throw new \Exception('No data provided for feature extraction');
+            }
+            $extractor = pipeline('feature-extraction', $model);
+            $output = $extractor($data);
+            return $output;
+        }
         else {
             if($data === null) {
                 throw new \Exception('No data provided');

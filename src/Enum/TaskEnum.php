@@ -13,4 +13,6 @@ enum TaskEnum: string
     case SUMMARIZATION = 'summarization';
     case TEXT_CLASSIFICATION = 'text-classification';
     case TOKEN_CLASSIFICATION = 'token-classification';
+    case FEATURE_EXTRACTION = 'feature-extraction';
+    case EMBEDDING = 'embedding';
 }
