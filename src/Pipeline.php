@@ -4,7 +4,6 @@ namespace Doppar\Transformer;
 
 use Doppar\Transformer\Enum\TaskEnum;
 use Doppar\Transformer\TaskFactory\TaskFactory;
-use function Codewithkyrian\Transformers\Pipelines\pipeline;
 
 class Pipeline
 {

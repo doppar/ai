@@ -2,7 +2,6 @@
 
 namespace Doppar\Transformer\TaskFactory;
 
-use InvalidArgumentException;
 use Doppar\Transformer\TaskFactory\Task\ZeroShotClassification;
 use Doppar\Transformer\TaskFactory\Task\Translation;
 use Doppar\Transformer\TaskFactory\Task\TextGeneration;
@@ -35,7 +34,7 @@ class TaskFactory
             FeatureExtraction::TASK => new FeatureExtraction(),
             Embedding::TASK => new Embedding(),
             ImageClassification::TASK => new ImageClassification(),
-            default => throw new InvalidArgumentException("Invalid task"),
+            default => throw new \InvalidArgumentException("Invalid task"),
         };
     }
 }
