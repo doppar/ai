@@ -8,4 +8,5 @@ enum TaskEnum: string
     case TEXT_GENERATION = 'text-generation';
     case TRANSLATION = 'translation';
     case QUESTION_ANSWERING = 'question-answering';
+    case ZERO_SHOT_CLASSIFICATION = 'zero-shot-classification';
 }

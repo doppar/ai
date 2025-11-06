@@ -21,6 +21,7 @@ class Pipeline
         ?string $question = null,
         ?string $context = null,
         int $topK = 1,
+        array $candidateLabels = [],
     ): mixed
     {
         if ($task === TaskEnum::TEXT_GENERATION) {
@@ -47,6 +48,17 @@ class Pipeline
             $questionAnswerer = pipeline('question-answering', $model);
 
             $output = $questionAnswerer($question, $context, topK: $topK);
+        }
+        else if ($task === TaskEnum::ZERO_SHOT_CLASSIFICATION) {
+            if (empty($model)) {
+                $model = 'Xenova/distilbert-base-uncased-mnli';
+            }
+            if (empty($candidateLabels)) {
+                throw new \Exception('No candidate labels provided');
+            }
+            $classifier = pipeline('zero-shot-classification', $model);
+            $output = $classifier($data, $candidateLabels);
+            return $output;
         }
         else {
             if($data === null) {
