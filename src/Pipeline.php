@@ -4,7 +4,6 @@ namespace Doppar\Transformer;
 
 use Doppar\Transformer\Enum\TaskEnum;
 use Doppar\Transformer\TaskFactory\TaskFactory;
-use function Codewithkyrian\Transformers\Pipelines\pipeline;
 
 class Pipeline
 {
@@ -23,6 +22,7 @@ class Pipeline
         ?string $context = null,
         int $topK = 1,
         array $candidateLabels = [],
+        ?string $imageUrl = null
     ): mixed
     {
         $output = TaskFactory::create($task)->execute([
@@ -39,6 +39,7 @@ class Pipeline
             'context' => $context,
             'topK' => $topK,
             'candidateLabels' => $candidateLabels,
+            'imageUrl' => $imageUrl,
         ]);
 
         return $output;
