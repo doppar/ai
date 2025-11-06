@@ -79,6 +79,17 @@ class Pipeline
             $output = $classifier($data);
             return $output;
         }
+        else if ($task === TaskEnum::SUMMARIZATION) {
+            if (empty($model)) {
+                $model = 'Xenova/distilbart-cnn-6-6';
+            }
+            if (empty($data)) {
+                throw new \Exception('No data provided for summarization');
+            }
+            $summarizer = pipeline('summarization', $model);
+            $output = $summarizer($data, maxNewTokens: $maxNewTokens);
+            return $output;
+        }
         else {
             if($data === null) {
                 throw new \Exception('No data provided');
