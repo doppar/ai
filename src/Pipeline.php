@@ -68,6 +68,17 @@ class Pipeline
             $output = $unmasker($data, topK: $topK);
             return $output;
         }
+        else if ($task === TaskEnum::TEXT_CLASSIFICATION) {
+            if (empty($model)) {
+                $model = 'Xenova/distilbert-base-uncased-finetuned-sst-2-english';
+            }
+            if (empty($data)) {
+                throw new \Exception('No data provided for text classification');
+            }
+            $classifier = pipeline('text-classification', $model);
+            $output = $classifier($data);
+            return $output;
+        }
         else {
             if($data === null) {
                 throw new \Exception('No data provided');
