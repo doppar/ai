@@ -125,6 +125,17 @@ class Pipeline
             $output = $classifier($imageUrl, topK: $topK);
             return $output;
         }
+        else if ($task === TaskEnum::IMAGE_TO_TEXT) {
+            if (empty($model)) {
+                $model = 'Xenova/vit-gpt2-image-captioning';
+            }
+            if (empty($imageUrl)) {
+                throw new \Exception('No image URL provided');
+            }
+            $captioner = pipeline('image-to-text', $model);
+            $output = $captioner($imageUrl, maxNewTokens: $maxNewTokens);
+            return $output;
+        }
         else {
             if($data === null) {
                 throw new \Exception('No data provided');
