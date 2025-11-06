@@ -4,18 +4,19 @@ namespace Doppar\Transformer\TaskFactory;
 
 use Doppar\Transformer\TaskFactory\Task\ZeroShotClassification;
 use Doppar\Transformer\TaskFactory\Task\Translation;
+use Doppar\Transformer\TaskFactory\Task\TokenClassification;
 use Doppar\Transformer\TaskFactory\Task\TextGeneration;
 use Doppar\Transformer\TaskFactory\Task\TextClassification;
 use Doppar\Transformer\TaskFactory\Task\TaskInterface;
 use Doppar\Transformer\TaskFactory\Task\Summarization;
 use Doppar\Transformer\TaskFactory\Task\SentimentAnalysis;
 use Doppar\Transformer\TaskFactory\Task\QuestionAnswer;
+use Doppar\Transformer\TaskFactory\Task\ImageToText;
+use Doppar\Transformer\TaskFactory\Task\ImageClassification;
 use Doppar\Transformer\TaskFactory\Task\FillMask;
 use Doppar\Transformer\TaskFactory\Task\FeatureExtraction;
-use Doppar\Transformer\Enum\TaskEnum;
 use Doppar\Transformer\TaskFactory\Task\Embedding;
-use Doppar\Transformer\TaskFactory\Task\ImageClassification;
-use Doppar\Transformer\TaskFactory\Task\TokenClassification;
+use Doppar\Transformer\Enum\TaskEnum;
 
 class TaskFactory
 {
@@ -34,6 +35,7 @@ class TaskFactory
             FeatureExtraction::TASK => new FeatureExtraction(),
             Embedding::TASK => new Embedding(),
             ImageClassification::TASK => new ImageClassification(),
+            ImageToText::TASK => new ImageToText(),
             default => throw new \InvalidArgumentException("Invalid task"),
         };
     }
