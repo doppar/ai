@@ -18,6 +18,7 @@ use Doppar\Transformer\TaskFactory\Task\{
     FillMask,
     FeatureExtraction,
     Embedding,
+    ImageCaption,
     ObjectDetection,
     ZeroShotImageClassification
 };
@@ -40,7 +41,7 @@ class TaskFactory
         FeatureExtraction::TASK->value => FeatureExtraction::class,
         Embedding::TASK->value => Embedding::class,
         ImageClassification::TASK->value => ImageClassification::class,
-        ImageToText::TASK->value => ImageToText::class,
+        ImageCaption::TASK->value => ImageCaption::class,
         ZeroShotImageClassification::TASK->value => ZeroShotImageClassification::class,
         ObjectDetection::TASK->value => ObjectDetection::class,
     ];

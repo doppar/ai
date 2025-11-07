@@ -6,12 +6,12 @@ use Doppar\Transformer\Enum\TaskEnum;
 
 use function Codewithkyrian\Transformers\Pipelines\pipeline;
 
-class ImageToText implements TaskInterface
+class ImageCaption implements TaskInterface
 {
     /**
      * The type of task this class represents.
      */
-    const TASK = TaskEnum::IMAGE_TO_TEXT;
+    const TASK = TaskEnum::IMAGE_CAPTION;
 
     /**
      * Execute the image-to-text (caption generation) pipeline.
@@ -31,6 +31,7 @@ class ImageToText implements TaskInterface
         if (empty($datas['model'])) {
             $datas['model'] = 'Xenova/vit-gpt2-image-captioning';
         }
+
         $classifier = pipeline(self::TASK->value, $datas['model']);
 
         return $classifier($datas['imageUrl'], maxNewTokens: $datas['maxNewTokens']);

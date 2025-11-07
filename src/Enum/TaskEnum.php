@@ -18,7 +18,7 @@ enum TaskEnum: string
     case EMBEDDING = 'embedding'; // Has Issue
 
     case IMAGE_CLASSIFICATION = 'image-classification';
-    case IMAGE_TO_TEXT = 'image-to-text';
+    case IMAGE_CAPTION = 'image-to-text';
     case ZERO_SHOT_IMAGE_CLASSIFICATION = 'zero-shot-image-classification';
     case OBJECT_DETECTION = 'object-detection';
 }
