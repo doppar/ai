@@ -6,34 +6,34 @@ use Doppar\Transformer\Enum\TaskEnum;
 
 use function Codewithkyrian\Transformers\Pipelines\pipeline;
 
-class Summarization implements TaskInterface
+class ObjectDetection implements TaskInterface
 {
     /**
      * The type of task this class represents.
      */
-    const TASK = TaskEnum::SUMMARIZATION;
+    const TASK = TaskEnum::OBJECT_DETECTION;
 
     /**
-     * Execute the summarization pipeline.
+     * Execute the object detection pipeline.
      *
      * @param mixed $datas Input parameters for the pipeline.
      *                     Expected structure:
      *                     [
-     *                         'data' => string,           // Text to summarize
+     *                         'imageUrl' => string,       // Path or URL to the image
      *                         'model' => ?string,          // Optional: custom model name
-     *                         'maxNewTokens' => int        // Maximum tokens for the generated summary
+     *                         'threshold' => float         // Confidence threshold for detections
      *                     ]
      *
-     * @return mixed Returns the generated summary text.
+     * @return mixed Returns an array of detected objects with labels, scores, and bounding boxes.
      */
     public function execute(mixed $datas): mixed
     {
         if (empty($datas['model'])) {
-            $datas['model'] = 'Xenova/distilbart-cnn-6-6';
+            $datas['model'] = 'Xenova/detr-resnet-50';
         }
 
-        $summarizer = pipeline(self::TASK->value, $datas['model']);
+        $detector = pipeline(self::TASK->value, $datas['model']);
 
-        return $summarizer($datas['data'], maxNewTokens: $datas['maxNewTokens']);
+        return $detector($datas['imageUrl'], threshold: $datas['threshold']);
     }
 }

@@ -15,8 +15,10 @@ enum TaskEnum: string
     case TEXT_CLASSIFICATION = 'text-classification';
     case TOKEN_CLASSIFICATION = 'token-classification';
     case FEATURE_EXTRACTION = 'feature-extraction';
-    case EMBEDDING = 'embedding';
+    case EMBEDDING = 'embedding'; // Has Issue
 
     case IMAGE_CLASSIFICATION = 'image-classification';
-    case IMAGE_TO_TEXT = 'image-to-text';
+    case IMAGE_CAPTION = 'image-to-text';
+    case ZERO_SHOT_IMAGE_CLASSIFICATION = 'zero-shot-image-classification';
+    case OBJECT_DETECTION = 'object-detection';
 }

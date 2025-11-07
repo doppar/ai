@@ -8,8 +8,25 @@ use function Codewithkyrian\Transformers\Pipelines\pipeline;
 
 class ImageClassification implements TaskInterface
 {
+    /**
+     * The type of task this class represents.
+     */
     const TASK = TaskEnum::IMAGE_CLASSIFICATION;
 
+    /**
+     * Execute the image classification pipeline.
+     *
+     * @param mixed $datas Input parameters for the pipeline.
+     *                     Expected structure:
+     *                     [
+     *                         'imageUrl' => string,      // Path or URL to the image file
+     *                         'model' => ?string,         // Optional: custom model name
+     *                         'topK' => int               // Number of top predictions to return
+     *                     ]
+     *
+     * @return mixed Returns an array of classification results with labels and scores.
+     * @throws \Exception
+     */
     public function execute(mixed $datas): mixed
     {
         if (empty($datas['model'])) {
