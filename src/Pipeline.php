@@ -23,8 +23,7 @@ class Pipeline
         int $topK = 1,
         array $candidateLabels = [],
         ?string $imageUrl = null
-    ): mixed
-    {
+    ): mixed {
         $output = TaskFactory::create($task)->execute([
             'data' => $data,
             'model' => $model,
@@ -45,12 +44,7 @@ class Pipeline
         return $output;
     }
 
-    public static function query(
-        array|object|string $item,
-        string $question,
-        ?string $model = null,
-        int $topK = 1,
-    ): mixed
+    public static function query(array|object|string $item, string $question, ?string $model = null, int $topK = 1): mixed
     {
         if (is_array($item)) {
             $row = $item;
@@ -67,16 +61,16 @@ class Pipeline
         $context = "Object:" . "\n" . json_encode($row, JSON_UNESCAPED_UNICODE) . "\n\n";
 
         $output = self::execute(
-            TaskEnum::QUESTION_ANSWERING, 
+            TaskEnum::QUESTION_ANSWERING,
             model: $model,
-            question : $question,
-            context : $context,
-            topK : $topK
+            question: $question,
+            context: $context,
+            topK: $topK
         );
 
         $text = is_array($output) && isset($output[0]['generated_text']) ? $output[0]['generated_text'] : (string)($output['generated_text'] ?? $output);
 
-        if(str_contains(strtolower($text), 'yes')) {
+        if (str_contains(strtolower($text), 'yes')) {
             return true;
         }
         return false;

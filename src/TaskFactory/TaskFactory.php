@@ -17,6 +17,7 @@ use Doppar\Transformer\TaskFactory\Task\FillMask;
 use Doppar\Transformer\TaskFactory\Task\FeatureExtraction;
 use Doppar\Transformer\TaskFactory\Task\Embedding;
 use Doppar\Transformer\Enum\TaskEnum;
+use Doppar\Transformer\TaskFactory\Task\ZeroShotImageClassification;
 
 class TaskFactory
 {
@@ -36,6 +37,7 @@ class TaskFactory
             Embedding::TASK => new Embedding(),
             ImageClassification::TASK => new ImageClassification(),
             ImageToText::TASK => new ImageToText(),
+            ZeroShotImageClassification::TASK => new ZeroShotImageClassification(),
             default => throw new \InvalidArgumentException("Invalid task"),
         };
     }
