@@ -1,6 +1,6 @@
 <?php
 
-namespace Doppar\Transformer\TaskFactory\Task;
+namespace Doppar\AI\TaskFactory\Task;
 
 interface TaskInterface
 {

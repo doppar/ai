@@ -1,8 +1,8 @@
 <?php
 
-namespace Doppar\Transformer\TaskFactory\Task;
+namespace Doppar\AI\TaskFactory\Task;
 
-use Doppar\Transformer\Enum\TaskEnum;
+use Doppar\AI\Enum\TaskEnum;
 
 use function Codewithkyrian\Transformers\Pipelines\pipeline;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Doppar\Transformer\Enum;
+namespace Doppar\AI\Enum;
 
 enum TaskEnum: string
 {

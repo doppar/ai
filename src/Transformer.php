@@ -1,8 +1,8 @@
 <?php
 
-namespace Doppar\Transformer;
+namespace Doppar\AI;
 
-class Transformer
+class AI
 {
     public function start(): void {}
 

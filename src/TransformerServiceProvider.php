@@ -1,12 +1,12 @@
 <?php
 
-namespace Doppar\Transformer;
+namespace Doppar\AI;
 
 use Phaseolies\Providers\ServiceProvider;
-use Codewithkyrian\Transformers\Transformers;
-use Doppar\Transformer\Console\Commands\RunTransformerCommand;
+use Codewithkyrian\Transformers\AIs;
+use Doppar\AI\Console\Commands\RunAICommand;
 
-class TransformerServiceProvider extends ServiceProvider
+class AIServiceProvider extends ServiceProvider
 {
     /**
      * Register services and bindings into the container.
@@ -21,10 +21,10 @@ class TransformerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Transformers::setup()
+        AIs::setup()
             ->setCacheDir(storage_path('app/transformers'))
             ->apply();
 
-        $this->commands(RunTransformerCommand::class);
+        $this->commands(RunAICommand::class);
     }
 }

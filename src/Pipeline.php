@@ -1,9 +1,9 @@
 <?php
 
-namespace Doppar\Transformer;
+namespace Doppar\AI;
 
-use Doppar\Transformer\Enum\TaskEnum;
-use Doppar\Transformer\TaskFactory\TaskFactory;
+use Doppar\AI\Enum\TaskEnum;
+use Doppar\AI\TaskFactory\TaskFactory;
 
 class Pipeline
 {

@@ -1,12 +1,12 @@
 ## Introduction to the transformer package
 
 Use AI directly in PHP, self host model ! using TransformersPHP : https://transformers.codewithkyrian.com/
+And Symfony AI Agent : https://github.com/symfony/ai-agent
 
 ### Installation
 
 ```shell
 composer require doppar/transformer
-composer require codewithkyrian/transformers
 ```
 Make sure FFI is enabled in your php.ini file. 
 Do not let it in `preload` mode.
@@ -28,8 +28,8 @@ php pool transformer:run "Hello, how are you ?"
 #### Use it in controller : 
 
 ```php
-use Doppar\Transformer\Pipeline;
-use Doppar\Transformer\Enum\TaskEnum;
+use Doppar\AI\Pipeline;
+use Doppar\AI\Enum\TaskEnum;
 
 $messages = [
     ['role' => 'user', 'content' => 'Resolve 5 * 4 ?'],

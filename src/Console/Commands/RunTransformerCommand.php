@@ -1,12 +1,12 @@
 <?php
 
-namespace Doppar\Transformer\Console\Commands;
+namespace Doppar\AI\Console\Commands;
 
-use Doppar\Transformer\Pipeline;
-use Doppar\Transformer\Enum\TaskEnum;
+use Doppar\AI\Pipeline;
+use Doppar\AI\Enum\TaskEnum;
 use Phaseolies\Console\Schedule\Command;
 
-class RunTransformerCommand extends Command
+class RunAICommand extends Command
 {
     protected $name = 'transformer:run {task}';
 

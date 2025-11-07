@@ -1,10 +1,10 @@
 <?php
 
-namespace Doppar\Transformer\TaskFactory;
+namespace Doppar\AI\TaskFactory;
 
-use Doppar\Transformer\Enum\TaskEnum;
-use Doppar\Transformer\TaskFactory\Task\TaskInterface;
-use Doppar\Transformer\TaskFactory\Task\{
+use Doppar\AI\Enum\TaskEnum;
+use Doppar\AI\TaskFactory\Task\TaskInterface;
+use Doppar\AI\TaskFactory\Task\{
     ZeroShotClassification,
     Translation,
     TokenClassification,

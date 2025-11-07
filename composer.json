@@ -1,13 +1,13 @@
 {
-  "name": "doppar/transformer",
-  "description": "Doppar/Transformer is a developer profiling and debugging toolbar for Doppar framework",
+  "name": "doppar/ia",
+  "description": "Doppar/AI",
   "keywords": ["doppar", "transformer", "llm", "language", "model"],
-  "homepage": "https://doppar.com/versions/3.x/doppar-transformer.html",
+  "homepage": "https://doppar.com/versions/3.x/doppar-ia.html",
   "type": "library",
   "license": "MIT",
   "support": {
-    "issues": "https://github.com/doppar/transformer/issues",
-    "source": "https://github.com/doppar/transformer"
+    "issues": "https://github.com/doppar/ia/issues",
+    "source": "https://github.com/doppar/ia"
   },
   "authors": [
         {
@@ -16,18 +16,19 @@
     ],
   "autoload": {
     "psr-4": {
-      "Doppar\\Transformer\\": "src/"
+      "Doppar\\AI\\": "src/"
     }
   },
   "require": {
     "php": ">=8.1",
     "doppar/framework": "^3.0",
-    "codewithkyrian/transformers": "^0.6.2"
+    "codewithkyrian/transformers": "^0.6.2",
+    "symfony/ai-agent": "dev-main"
   },
   "extra": {
     "doppar": {
       "providers": [
-        "Doppar\\Transformer\\TransformerServiceProvider"
+        "Doppar\\AI\\TransformerServiceProvider"
       ]
     }
   },
@@ -35,7 +36,7 @@
   "prefer-stable": true,
   "autoload-dev": {
     "psr-4": {
-      "Doppar\\Transformer\\Tests\\": "tests/"
+      "Doppar\\AI\\Tests\\": "tests/"
     }
   },
   "require-dev": {
