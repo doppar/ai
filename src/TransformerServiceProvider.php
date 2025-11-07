@@ -24,6 +24,7 @@ class TransformerServiceProvider extends ServiceProvider
         Transformers::setup()
             ->setCacheDir(storage_path('app/transformers'))
             ->apply();
+
         $this->commands(RunTransformerCommand::class);
     }
 }
