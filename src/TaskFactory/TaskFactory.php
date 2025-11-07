@@ -13,7 +13,6 @@ use Doppar\Transformer\TaskFactory\Task\{
     Summarization,
     SentimentAnalysis,
     QuestionAnswer,
-    ImageToText,
     ImageClassification,
     FillMask,
     FeatureExtraction,
