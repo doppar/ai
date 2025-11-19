@@ -11,9 +11,10 @@ interface AgentInterface
      *
      * @param string $key
      * @param string $model
+     * @param array $config
      * @return AgentInterface
      */
-    public static function create(string $key, string $model): AgentInterface;
+    public static function create(string $key, string $model, $config = []): AgentInterface;
 
     /**
      * Sets the internal message collection for the agent.
