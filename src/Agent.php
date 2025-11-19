@@ -6,11 +6,46 @@ use Doppar\AI\AgentFactory\AgentInterface;
 
 class Agent
 {
+    /**
+     * The fully qualified class name of the agent implementation
+     *
+     * @var class-string<AgentInterface>
+     */
     protected string $agentClass;
+
+    /**
+     * The API key used by the agent
+     *
+     * @var string
+     */
     protected string $key;
+
+    /**
+     * The model name to be used (e.g., GPT model)
+     *
+     * @var string
+     */
     protected string $model;
+
+    /**
+     * Stores all messages (system, user, assistant) to send to the agent
+     *
+     * @var array<int, array{role: string, content: string}>
+     */
     protected array $messages = [];
+
+    /**
+     * Additional parameters for the agent execution (temperature, max_tokens, etc.)
+     *
+     * @var array<string, mixed>
+     */
     protected array $params = [];
+
+    /**
+     * Indicates whether the agent should use "complete" mode when executing
+     *
+     * @var bool
+     */
     protected bool $complete = false;
 
     /**
@@ -197,19 +232,5 @@ class Agent
         return $this->agentClass::create($this->key, $this->model)
             ->setMessage($this->messages)
             ->execute($this->params, $this->complete);
-    }
-
-    /**
-     * Legacy static method for backward compatibility
-     *
-     * @param class-string<AgentInterface> $agent
-     */
-    public static function run(string $agent, string $key, string $model, array $datas, array $params, bool $complete = false): mixed
-    {
-        return self::make($agent, $key)
-            ->model($model)
-            ->messages($datas)
-            ->withParams($params)
-            ->complete ? $this->complete()->execute() : $this->execute();
     }
 }
