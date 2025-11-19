@@ -1,0 +1,128 @@
+<?php
+
+namespace Doppar\AI\AgentFactory;
+
+use InvalidArgumentException;
+use Symfony\AI\Platform\Platform;
+use Symfony\AI\Platform\Message\Message;
+use Doppar\AI\AgentFactory\AgentInterface;
+use Symfony\AI\Platform\Message\MessageBag;
+use Symfony\AI\Platform\Bridge\Gemini\PlatformFactory;
+
+class Gemini implements AgentInterface
+{
+    /**
+     * The AI platform instance for executing Gemini calls
+     *
+     * @var Platform
+     */
+    private Platform $platform;
+
+    /**
+     * A collection of structured messages sent to the model
+     *
+     * @var MessageBag
+     */
+    private MessageBag $messages;
+
+    /**
+     * Constructor.
+     *
+     * @param string $key 
+     * @param string $model
+     */
+    public function __construct(private string $key, private string $model)
+    {
+        $this->platform = PlatformFactory::create($this->key);
+    }
+
+    /**
+     * Factory method to create an agent instance.
+     *
+     * @param string $key
+     * @param string $model
+     * @return AgentInterface
+     */
+    public static function create(string $key, string $model): AgentInterface
+    {
+        return new self($key, $model);
+    }
+
+    /**
+     * Sets and hydrates messages for the model invocation.
+     *
+     * @param array<int, array{role: string, content: string}> $messages
+     *     Array of messages, each containing:
+     *     - role: "system"|"user"
+     *     - content: string
+     * @return $this
+     */
+    public function setMessage(array $messages): mixed
+    {
+        $this->messages = $this->hydrateMessages($messages);
+        return $this;
+    }
+
+    /**
+     * Executes the model call using the current messages and parameters.
+     *
+     * @param array<string, mixed> $params
+     * @param bool $complete
+     * @return mixed
+     */
+    public function execute(array $params, bool $complete = false): mixed
+    {
+        $params = $this->normalizeParams($params);
+
+        $result = $this->platform->invoke($this->model, $this->messages, $params);
+        return $complete ? $result : $result->asText();
+    }
+
+    /**
+     * Normalizes generic parameters to the Gemini-specific schema.
+     *
+     * @param array<string, mixed> $params
+     * @return array<string, mixed>
+     */
+    private function normalizeParams(array $params): array
+    {
+        // Gemini expects "max_output_tokens" instead of OpenAI-style "max_tokens".
+        if (array_key_exists('max_tokens', $params)) {
+            $params['max_output_tokens'] = $params['max_tokens'];
+            unset($params['max_tokens']);
+        }
+
+        return $params;
+    }
+
+    /**
+     * Converts raw message arrays into a MessageBag.
+     *
+     * @param array<int, array{role: string, content: string}> $data
+     * @return MessageBag
+     * @throws InvalidArgumentException
+     */
+    public function hydrateMessages(array $data): MessageBag
+    {
+        $messages = [];
+
+        foreach ($data as $item) {
+            if (!isset($item['role'], $item['content'])) {
+                continue;
+            }
+
+            switch ($item['role']) {
+                case 'system':
+                    $messages[] = Message::forSystem($item['content']);
+                    break;
+                case 'user':
+                    $messages[] = Message::ofUser($item['content']);
+                    break;
+                default:
+                    throw new InvalidArgumentException("Unknown role : {$item['role']}");
+            }
+        }
+
+        return new MessageBag(...$messages);
+    }
+}
