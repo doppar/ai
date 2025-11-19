@@ -1,18 +1,18 @@
 {
-  "name": "doppar/ia",
-  "description": "Doppar/AI",
+  "name": "doppar/ai",
+  "description": "Seamless AI integration for Doppar Framework",
   "keywords": ["doppar", "transformer", "llm", "language", "model"],
-  "homepage": "https://doppar.com/versions/3.x/doppar-ia.html",
+  "homepage": "https://doppar.com/versions/3.x/doppar-ai.html",
   "type": "library",
   "license": "MIT",
   "support": {
-    "issues": "https://github.com/doppar/ia/issues",
-    "source": "https://github.com/doppar/ia"
+    "issues": "https://github.com/doppar/ai/issues",
+    "source": "https://github.com/doppar/ai"
   },
   "authors": [
         {
-            "name": "Pierre S"
-        }
+          "name": "Pierre S"
+        } 
     ],
   "autoload": {
     "psr-4": {
@@ -28,7 +28,7 @@
   "extra": {
     "doppar": {
       "providers": [
-        "Doppar\\AI\\TransformerServiceProvider"
+        "Doppar\\AI\\AIServiceProvider"
       ]
     }
   },
