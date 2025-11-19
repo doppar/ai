@@ -3,7 +3,7 @@
 namespace Doppar\AI;
 
 use Phaseolies\Providers\ServiceProvider;
-use Codewithkyrian\Transformers\AIs;
+use Codewithkyrian\Transformers\Transformers;
 use Doppar\AI\Console\Commands\RunAICommand;
 
 class AIServiceProvider extends ServiceProvider
@@ -21,7 +21,7 @@ class AIServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        AIs::setup()
+        Transformers::setup()
             ->setCacheDir(storage_path('app/transformers'))
             ->apply();
 

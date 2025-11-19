@@ -11,31 +11,78 @@ use Symfony\AI\Platform\Bridge\OpenAi\PlatformFactory;
 
 class OpenAI implements AgentInterface
 {
+    /**
+     * The AI platform instance for executing OpenAI calls
+     *
+     * @var Platform
+     */
     private Platform $platform;
+
+    /**
+     * A collection of structured messages sent to the model
+     *
+     * @var MessageBag
+     */
     private MessageBag $messages;
 
-    public static function create(string $key, string $model): AgentInterface
-    {
-        return new self($key, $model);
-    }
-
+    /**
+     * Constructor.
+     *
+     * @param string $key 
+     * @param string $model
+     */
     public function __construct(private string $key, private string $model)
     {
         $this->platform = PlatformFactory::create($this->key);
     }
 
+    /**
+     * Factory method to create an agent instance.
+     *
+     * @param string $key
+     * @param string $model
+     * @return AgentInterface
+     */
+    public static function create(string $key, string $model): AgentInterface
+    {
+        return new self($key, $model);
+    }
+
+    /**
+     * Sets and hydrates messages for the model invocation.
+     *
+     * @param array<int, array{role: string, content: string}> $messages
+     *     Array of messages, each containing:
+     *     - role: "system"|"user"
+     *     - content: string
+     * @return $this
+     */
     public function setMessage(array $messages): mixed
     {
         $this->messages = $this->hydrateMessages($messages);
         return $this;
     }
 
+    /**
+     * Executes the model call using the current messages and parameters.
+     *
+     * @param array<string, mixed> $params
+     * @param bool $complete
+     * @return mixed
+     */
     public function execute(array $params, bool $complete = false): mixed
     {
         $result = $this->platform->invoke($this->model, $this->messages, $params);
         return $complete ? $result : $result->asText();
     }
 
+    /**
+     * Converts raw message arrays into a MessageBag.
+     *
+     * @param array<int, array{role: string, content: string}> $data
+     * @return MessageBag
+     * @throws InvalidArgumentException
+     */
     public function hydrateMessages(array $data): MessageBag
     {
         $messages = [];
