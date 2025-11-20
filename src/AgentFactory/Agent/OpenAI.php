@@ -1,21 +1,15 @@
 <?php
 
-namespace Doppar\AI\AgentFactory;
+namespace Doppar\AI\AgentFactory\Agent;
 
 use InvalidArgumentException;
-use Symfony\AI\Platform\Model;
 use Symfony\AI\Platform\Platform;
-use Symfony\AI\Platform\Capability;
 use Symfony\AI\Platform\Message\Message;
 use Doppar\AI\AgentFactory\AgentInterface;
 use Symfony\AI\Platform\Message\MessageBag;
-use Symfony\Component\HttpClient\HttpClient;
-use Symfony\AI\Platform\Bridge\LmStudio\PlatformFactory;
-use Symfony\AI\Platform\ModelCatalog\AbstractModelCatalog;
-use Symfony\AI\Platform\ModelCatalog\ModelCatalogInterface;
-use Symfony\AI\Platform\Bridge\LmStudio\Completions as LmStudioCompletions;
+use Symfony\AI\Platform\Bridge\OpenAi\PlatformFactory;
 
-class SelfHost implements AgentInterface
+class OpenAI implements AgentInterface
 {
     /**
      * The AI platform instance for executing OpenAI calls
@@ -36,38 +30,10 @@ class SelfHost implements AgentInterface
      *
      * @param string $key 
      * @param string $model
-     * @param array $config
      */
-    public function __construct(
-        private ?string $key = null,
-        private string $model,
-        private array $config = []
-    ) {
-        $this->platform = PlatformFactory::create(
-            hostUrl: $this->config['host'] ?? '',
-            httpClient: HttpClient::create([
-                'headers' => [
-                    'Authorization' => 'Bearer ' . ($this->key ?? ''),
-                ],
-            ]),
-            modelCatalog: new class() extends AbstractModelCatalog implements ModelCatalogInterface {
-                public function __construct()
-                {
-                    $this->models = [];
-                }
-
-                public function getModel(string $modelName): Model
-                {
-                    $parsed = self::parseModelName($modelName);
-
-                    return new LmStudioCompletions(
-                        $parsed['name'],
-                        Capability::cases(),
-                        $parsed['options']
-                    );
-                }
-            }
-        );
+    public function __construct(private string $key, private string $model)
+    {
+        $this->platform = PlatformFactory::create($this->key);
     }
 
     /**
@@ -80,7 +46,7 @@ class SelfHost implements AgentInterface
      */
     public static function create(string $key, string $model, $config = []): AgentInterface
     {
-        return new self($key, $model, $config);
+        return new self($key, $model);
     }
 
     /**

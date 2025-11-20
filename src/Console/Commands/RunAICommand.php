@@ -8,7 +8,7 @@ use Phaseolies\Console\Schedule\Command;
 
 class RunAICommand extends Command
 {
-    protected $name = 'transformer:run {task}';
+    protected $name = 'ai:run {task}';
 
     protected function handle(): int
     {
@@ -26,6 +26,7 @@ class RunAICommand extends Command
 
             $this->info($output[0]['generated_text']);
             $this->newLine();
+
             return Command::SUCCESS;
         });
     }
