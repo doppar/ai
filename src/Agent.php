@@ -51,9 +51,9 @@ class Agent
     /**
      * The host to be used for self host LLM (e.g., GPT model)
      *
-     * @var string
+     * @var string|null
      */
-    protected string $host;
+    protected ?string $host = null;
 
     /**
      * Create a new Agent instance
@@ -236,7 +236,11 @@ class Agent
      */
     public function execute(): mixed
     {
-        return $this->agentClass::create($this->key, $this->model, ['host' => $this->host])
+        return $this->agentClass::create(
+            key: $this->key,
+            model: $this->model,
+            config: ['host' => $this->host]
+        )
             ->setMessage($this->messages)
             ->execute($this->params, $this->complete);
     }
