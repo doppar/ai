@@ -1,18 +1,24 @@
 <?php
 
-namespace Doppar\AI\AgentFactory;
+namespace Doppar\AI\AgentFactory\Agent;
 
 use InvalidArgumentException;
+use Symfony\AI\Platform\Model;
 use Symfony\AI\Platform\Platform;
+use Symfony\AI\Platform\Capability;
 use Symfony\AI\Platform\Message\Message;
 use Doppar\AI\AgentFactory\AgentInterface;
 use Symfony\AI\Platform\Message\MessageBag;
-use Symfony\AI\Platform\Bridge\Gemini\PlatformFactory;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\AI\Platform\Bridge\LmStudio\PlatformFactory;
+use Symfony\AI\Platform\ModelCatalog\AbstractModelCatalog;
+use Symfony\AI\Platform\ModelCatalog\ModelCatalogInterface;
+use Symfony\AI\Platform\Bridge\LmStudio\Completions as LmStudioCompletions;
 
-class Gemini implements AgentInterface
+class SelfHost implements AgentInterface
 {
     /**
-     * The AI platform instance for executing Gemini calls
+     * The AI platform instance for executing OpenAI calls
      *
      * @var Platform
      */
@@ -30,10 +36,38 @@ class Gemini implements AgentInterface
      *
      * @param string $key 
      * @param string $model
+     * @param array $config
      */
-    public function __construct(private string $key, private string $model)
-    {
-        $this->platform = PlatformFactory::create($this->key);
+    public function __construct(
+        private ?string $key = null,
+        private string $model,
+        private array $config = []
+    ) {
+        $this->platform = PlatformFactory::create(
+            hostUrl: $this->config['host'] ?? '',
+            httpClient: HttpClient::create([
+                'headers' => [
+                    'Authorization' => 'Bearer ' . ($this->key ?? ''),
+                ],
+            ]),
+            modelCatalog: new class() extends AbstractModelCatalog implements ModelCatalogInterface {
+                public function __construct()
+                {
+                    $this->models = [];
+                }
+
+                public function getModel(string $modelName): Model
+                {
+                    $parsed = self::parseModelName($modelName);
+
+                    return new LmStudioCompletions(
+                        $parsed['name'],
+                        Capability::cases(),
+                        $parsed['options']
+                    );
+                }
+            }
+        );
     }
 
     /**
@@ -46,7 +80,7 @@ class Gemini implements AgentInterface
      */
     public static function create(string $key, string $model, $config = []): AgentInterface
     {
-        return new self($key, $model);
+        return new self($key, $model, $config);
     }
 
     /**
@@ -73,27 +107,8 @@ class Gemini implements AgentInterface
      */
     public function execute(array $params, bool $complete = false): mixed
     {
-        $params = $this->normalizeParams($params);
-
         $result = $this->platform->invoke($this->model, $this->messages, $params);
         return $complete ? $result : $result->asText();
-    }
-
-    /**
-     * Normalizes generic parameters to the Gemini-specific schema.
-     *
-     * @param array<string, mixed> $params
-     * @return array<string, mixed>
-     */
-    private function normalizeParams(array $params): array
-    {
-        // Gemini expects "max_output_tokens" instead of OpenAI-style "max_tokens".
-        if (array_key_exists('max_tokens', $params)) {
-            $params['max_output_tokens'] = $params['max_tokens'];
-            unset($params['max_tokens']);
-        }
-
-        return $params;
     }
 
     /**

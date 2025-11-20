@@ -1,18 +1,18 @@
 <?php
 
-namespace Doppar\AI\AgentFactory;
+namespace Doppar\AI\AgentFactory\Agent;
 
 use InvalidArgumentException;
 use Symfony\AI\Platform\Platform;
 use Symfony\AI\Platform\Message\Message;
 use Doppar\AI\AgentFactory\AgentInterface;
 use Symfony\AI\Platform\Message\MessageBag;
-use Symfony\AI\Platform\Bridge\OpenAi\PlatformFactory;
+use Symfony\AI\Platform\Bridge\Gemini\PlatformFactory;
 
-class OpenAI implements AgentInterface
+class Gemini implements AgentInterface
 {
     /**
-     * The AI platform instance for executing OpenAI calls
+     * The AI platform instance for executing Gemini calls
      *
      * @var Platform
      */
@@ -73,8 +73,27 @@ class OpenAI implements AgentInterface
      */
     public function execute(array $params, bool $complete = false): mixed
     {
+        $params = $this->normalizeParams($params);
+
         $result = $this->platform->invoke($this->model, $this->messages, $params);
         return $complete ? $result : $result->asText();
+    }
+
+    /**
+     * Normalizes generic parameters to the Gemini-specific schema.
+     *
+     * @param array<string, mixed> $params
+     * @return array<string, mixed>
+     */
+    private function normalizeParams(array $params): array
+    {
+        // Gemini expects "max_output_tokens" instead of OpenAI-style "max_tokens".
+        if (array_key_exists('max_tokens', $params)) {
+            $params['max_output_tokens'] = $params['max_tokens'];
+            unset($params['max_tokens']);
+        }
+
+        return $params;
     }
 
     /**
