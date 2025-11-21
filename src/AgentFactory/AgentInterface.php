@@ -29,9 +29,10 @@ interface AgentInterface
      *
      * @param array $params
      * @param bool $complete
+     * @param ?string $textInput
      * @return mixed 
      */
-    public function execute(array $params, bool $complete = false): mixed;
+    public function execute(array $params, bool $complete = false, ?string $textInput = null): mixed;
 
     /**
      * Converts raw message data into a MessageBag instance.
