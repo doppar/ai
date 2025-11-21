@@ -95,6 +95,7 @@ class SelfHost implements AgentInterface
     public function setMessage(array $messages): mixed
     {
         $this->messages = $this->hydrateMessages($messages);
+
         return $this;
     }
 
@@ -109,6 +110,7 @@ class SelfHost implements AgentInterface
     public function execute(array $params, bool $complete = false, ?string $textInput = null): mixed
     {
         $result = $this->platform->invoke($this->model, $this->messages, $params);
+
         return $complete ? $result : $result->asText();
     }
 
