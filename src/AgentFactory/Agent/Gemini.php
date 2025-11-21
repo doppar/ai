@@ -69,9 +69,10 @@ class Gemini implements AgentInterface
      *
      * @param array<string, mixed> $params
      * @param bool $complete
+     * @param ?string $textInput
      * @return mixed
      */
-    public function execute(array $params, bool $complete = false): mixed
+    public function execute(array $params, bool $complete = false,?string $textInput = null): mixed
     {
         $params = $this->normalizeParams($params);
 

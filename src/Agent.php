@@ -257,4 +257,28 @@ class Agent
 
         return $this;
     }
+
+    /**
+     * Embedding
+     * 
+     * @param string $model
+     * param string $content
+     */
+    public function embedding(string $model, string $content): array
+    {
+        return $this->agentClass::create(
+            key: $this->key,
+            model: $model,
+            config: ['host' => $this->host]
+        )
+            ->execute([], true, $content)->asVectors()[0]->getData();
+    }
+
+    /**
+     * getAgentClass
+     */
+    public function getAgentClass(): string
+    {
+        return $this->agentClass;
+    }
 }

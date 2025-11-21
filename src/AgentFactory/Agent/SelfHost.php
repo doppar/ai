@@ -103,9 +103,10 @@ class SelfHost implements AgentInterface
      *
      * @param array<string, mixed> $params
      * @param bool $complete
+     * @param ?string $textInput
      * @return mixed
      */
-    public function execute(array $params, bool $complete = false): mixed
+    public function execute(array $params, bool $complete = false, ?string $textInput = null): mixed
     {
         $result = $this->platform->invoke($this->model, $this->messages, $params);
         return $complete ? $result : $result->asText();
