@@ -3,6 +3,7 @@
 namespace Doppar\AI\Console\Commands;
 
 use Doppar\AI\Agent;
+use Doppar\AI\AgentFactory\Agent\Claude;
 use Doppar\AI\AgentFactory\Agent\Gemini;
 use Doppar\AI\AgentFactory\Agent\OpenAI;
 use Phaseolies\Console\Schedule\Command;
@@ -28,8 +29,12 @@ class TranslateCommand extends Command
                     $agent = OpenAI::class;
                     $model = $this->argument('model') ?? 'gpt-3.5-turbo';
                     break;
+                case 'claude':
+                    $agent = Claude::class;
+                    $model = $this->argument('model') ?? 'claude-3-haiku-20240307';
+                    break;
                 default:
-                    throw new \Exception('Agent not found for translation, use "gemini" or "openai"');
+                    throw new \Exception('Agent not found for translation, use "gemini", "openai" or "claude"');
             };            
 
             //ask question
