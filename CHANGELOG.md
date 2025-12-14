@@ -1,5 +1,14 @@
 # Release Notes
 
+## v1.1.0 - 2025-12-11
+
+### What's Changed
+
+* [Claude] Support claude/anthropic by [@rrr63](https://github.com/rrr63) in https://github.com/doppar/ai/pull/30
+* [SelfHost] Use Generic Bridge instead of LMStudio by [@rrr63](https://github.com/rrr63) in https://github.com/doppar/ai/pull/29
+
+**Full Changelog**: https://github.com/doppar/ai/compare/v1.0.0...v1.1.0
+
 ## v1.0.0-beta.1 - 2025-11-20
 
 ### What's Changed
