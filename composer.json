@@ -21,9 +21,9 @@
   },
   "require": {
     "php": ">=8.1",
-    "doppar/framework": "^3.0",
+    "doppar/framework": "3.*",
     "codewithkyrian/transformers": "^0.6.2",
-    "symfony/ai-agent": "dev-main"
+    "symfony/ai-agent": "0.1"
   },
   "extra": {
     "doppar": {
