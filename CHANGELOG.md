@@ -1,5 +1,13 @@
 # Release Notes
 
+## v1.1.3 - 2025-12-31
+
+### What's Changed
+
+* Updated options params index [max_tokens] to [max_output_tokens] #33 by [@techmahedy](https://github.com/techmahedy) in https://github.com/doppar/ai/pull/34
+
+**Full Changelog**: https://github.com/doppar/ai/compare/v1.1.2...v1.1.3
+
 ## v1.1.2 - 2025-12-31
 
 ### What's Changed
