@@ -75,29 +75,9 @@ class Gemini implements AgentInterface
      */
     public function execute(array $params, bool $complete = false, ?string $textInput = null): mixed
     {
-        $params = $this->normalizeParams($params);
-
         $result = $this->platform->invoke($this->model, $this->messages, $params);
 
         return $complete ? $result : $result->asText();
-    }
-
-    /**
-     * Normalizes generic parameters to the Gemini-specific schema.
-     *
-     * @param array<string, mixed> $params
-     * @return array<string, mixed>
-     */
-    private function normalizeParams(array $params): array
-    {
-        // Gemini expects "max_output_tokens"
-        // Instead of OpenAI-style "max_tokens"
-        if (array_key_exists('max_tokens', $params)) {
-            $params['max_output_tokens'] = $params['max_tokens'];
-            unset($params['max_tokens']);
-        }
-
-        return $params;
     }
 
     /**
