@@ -8,7 +8,6 @@ use Symfony\AI\Platform\Capability;
 use Symfony\AI\Platform\Message\Message;
 use Doppar\AI\AgentFactory\AgentInterface;
 use Symfony\AI\Platform\Message\MessageBag;
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\AI\Platform\Bridge\Generic\ModelCatalog;
 use Symfony\AI\Platform\Bridge\Generic\PlatformFactory;
 use Symfony\AI\Platform\Bridge\Generic\CompletionsModel;
