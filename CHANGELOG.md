@@ -1,5 +1,13 @@
 # Release Notes
 
+## v1.1.2 - 2025-12-31
+
+### What's Changed
+
+* [Agent] Fix package by [@rrr63](https://github.com/rrr63) in https://github.com/doppar/ai/pull/32
+
+**Full Changelog**: https://github.com/doppar/ai/compare/v1.1.1...v1.1.2
+
 ## v1.1.1 - 2025-12-30
 
 ### What's Changed
