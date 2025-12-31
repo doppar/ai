@@ -189,7 +189,7 @@ class Agent
      */
     public function maxTokens(int $tokens): self
     {
-        $this->params['max_tokens'] = $tokens;
+        $this->params['max_output_tokens'] = $tokens;
 
         return $this;
     }
