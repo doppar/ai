@@ -3,8 +3,9 @@
 namespace Doppar\AI;
 
 use Phaseolies\Providers\ServiceProvider;
-use Codewithkyrian\Transformers\Transformers;
 use Doppar\AI\Console\Commands\RunAICommand;
+use Codewithkyrian\Transformers\Transformers;
+use Doppar\AI\Console\Commands\TranslateCommand;
 
 class AIServiceProvider extends ServiceProvider
 {
@@ -26,5 +27,6 @@ class AIServiceProvider extends ServiceProvider
             ->apply();
 
         $this->commands(RunAICommand::class);
+        $this->commands(TranslateCommand::class);
     }
 }

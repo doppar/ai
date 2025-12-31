@@ -189,7 +189,7 @@ class Agent
      */
     public function maxTokens(int $tokens): self
     {
-        $this->params['max_tokens'] = $tokens;
+        $this->params['max_output_tokens'] = $tokens;
 
         return $this;
     }
@@ -280,5 +280,65 @@ class Agent
     public function getAgentClass(): string
     {
         return $this->agentClass;
+    }
+
+    /**
+     * Translate
+     *
+     * @param string $languageFrom
+     * @param string $languageTo
+     * @param string $content
+     * @return array|string
+     */
+    public function translate(string $langFrom, string $langTo, string $content): array|string
+    {
+        $this->messages = [
+            [
+                'role' => 'user',
+                'content' => 'You are a professional translator. Your task is to translate the text from Language A to Language B faithfully.
+                                No interpretation
+                                No summarization
+                                No commentary
+                                Preserve the original formatting
+                                Provide only the final translation.
+                                Text: ' . $content . '
+                                Language A: ' . $langFrom . '
+                                Language B: ' . $langTo . '
+                                '
+            ],
+        ];
+
+        return $this->execute();
+    }
+
+    /**
+     * Translate all files in a folder to another language
+     *
+     * @param string $langFrom
+     * @param string $langTo
+     * @return array
+     */
+    public function translateLocalization(string $langFrom, string $langTo): array
+    {
+        if (!file_exists(base_path() . "/lang/$langFrom")) {
+            throw new \Exception("Folder " . base_path() . "/lang/$langFrom does not exist");
+        }
+        if (!file_exists(base_path() . "/lang/$langTo")) {
+            mkdir(base_path() . "/lang/$langTo");
+        }
+
+        $files = glob(base_path() . "/lang/$langFrom/*");
+        $results = [];
+        foreach ($files as $file) {
+            $content = file_get_contents($file);
+            $results[] = $this->translate($langFrom, $langTo, $content);
+            $results[count($results) - 1] = str_replace(['```php', '```'], '', $results[count($results) - 1]);
+            if (strpos($results[count($results) - 1], "\n") === 0) {
+                $results[count($results) - 1] = substr($results[count($results) - 1], 1);
+            }
+            file_put_contents(base_path() . "/lang/$langTo/" . basename($file), $results[count($results) - 1]);
+        }
+
+        return $results;
     }
 }

@@ -8,14 +8,13 @@ use Doppar\AI\AgentFactory\Agent\OpenAI;
 /**
  * Helper class providing vector utilities for RAG (Retrieval Augmented Generation).
  */
-class VectorTools
+class Vector
 {
     /**
      * Compute the cosine similarity between two numeric vectors.
      *
      * @param array<int,float> $vecA
      * @param array<int,float> $vecB
-     *
      * @return float
      */
     static function cosineSimilarity(array $vecA, array $vecB): float {
@@ -36,13 +35,12 @@ class VectorTools
      *
      * @param array<int,array{vector:array<int,float>,content:string}> $context
      * @param array<int,float> $questionVector
-     *
      * @return string
      */
     static function getContext(array $context, array $questionVector): string
     {
         usort($context, function($a, $b) use ($questionVector) {
-            return VectorTools::cosineSimilarity($b['vector'], $questionVector) <=> VectorTools::cosineSimilarity($a['vector'], $questionVector);
+            return self::cosineSimilarity($b['vector'], $questionVector) <=> self::cosineSimilarity($a['vector'], $questionVector);
         });
 
         $topChunks = array_slice($context, 0, 3);
@@ -56,7 +54,6 @@ class VectorTools
      * @param Agent $agent
      * @param string $model
      * @param string $content
-     *
      * @return array<int,float>
      */
     static function embedding(Agent $agent, string $model, string $content): array

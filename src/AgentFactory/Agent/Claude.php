@@ -7,12 +7,12 @@ use Symfony\AI\Platform\Platform;
 use Symfony\AI\Platform\Message\Message;
 use Doppar\AI\AgentFactory\AgentInterface;
 use Symfony\AI\Platform\Message\MessageBag;
-use Symfony\AI\Platform\Bridge\Gemini\PlatformFactory;
+use Symfony\AI\Platform\Bridge\Anthropic\PlatformFactory;
 
-class Gemini implements AgentInterface
+class Claude implements AgentInterface
 {
     /**
-     * The AI platform instance for executing Gemini calls
+     * The AI platform instance for executing Claude/Anthropic calls
      *
      * @var Platform
      */
@@ -75,7 +75,7 @@ class Gemini implements AgentInterface
      */
     public function execute(array $params, bool $complete = false, ?string $textInput = null): mixed
     {
-        $result = $this->platform->invoke($this->model, $this->messages, $params);
+        $result = $this->platform->invoke($this->model, $textInput ?? $this->messages, $params);
 
         return $complete ? $result : $result->asText();
     }

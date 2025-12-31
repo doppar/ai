@@ -3,17 +3,14 @@
 namespace Doppar\AI\AgentFactory\Agent;
 
 use InvalidArgumentException;
-use Symfony\AI\Platform\Model;
 use Symfony\AI\Platform\Platform;
 use Symfony\AI\Platform\Capability;
 use Symfony\AI\Platform\Message\Message;
 use Doppar\AI\AgentFactory\AgentInterface;
 use Symfony\AI\Platform\Message\MessageBag;
-use Symfony\Component\HttpClient\HttpClient;
-use Symfony\AI\Platform\Bridge\LmStudio\PlatformFactory;
-use Symfony\AI\Platform\ModelCatalog\AbstractModelCatalog;
-use Symfony\AI\Platform\ModelCatalog\ModelCatalogInterface;
-use Symfony\AI\Platform\Bridge\LmStudio\Completions as LmStudioCompletions;
+use Symfony\AI\Platform\Bridge\Generic\ModelCatalog;
+use Symfony\AI\Platform\Bridge\Generic\PlatformFactory;
+use Symfony\AI\Platform\Bridge\Generic\CompletionsModel;
 
 class SelfHost implements AgentInterface
 {
@@ -43,30 +40,24 @@ class SelfHost implements AgentInterface
         private string $model,
         private array $config = []
     ) {
-        $this->platform = PlatformFactory::create(
-            hostUrl: $this->config['host'] ?? '',
-            httpClient: HttpClient::create([
-                'headers' => [
-                    'Authorization' => 'Bearer ' . ($this->key ?? ''),
+        $modelCatalog = new ModelCatalog([
+            $model => [
+                'class' => CompletionsModel::class,
+                'capabilities' => [
+                    Capability::INPUT_MESSAGES,
+                    Capability::OUTPUT_TEXT,
+                    Capability::OUTPUT_STREAMING,
+                    Capability::OUTPUT_STRUCTURED,
+                    Capability::INPUT_IMAGE,
+                    Capability::TOOL_CALLING,
                 ],
-            ]),
-            modelCatalog: new class() extends AbstractModelCatalog implements ModelCatalogInterface {
-                public function __construct()
-                {
-                    $this->models = [];
-                }
+            ],
+        ]);
 
-                public function getModel(string $modelName): Model
-                {
-                    $parsed = self::parseModelName($modelName);
-
-                    return new LmStudioCompletions(
-                        $parsed['name'],
-                        Capability::cases(),
-                        $parsed['options']
-                    );
-                }
-            }
+        $this->platform = PlatformFactory::create(
+            baseUrl: $this->config['host'] ?? '',
+            apiKey: $this->key,
+            modelCatalog: $modelCatalog
         );
     }
 
