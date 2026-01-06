@@ -25,6 +25,7 @@ class Pipeline
      * @param int $topK Number of top results to return (for classification / QA / generation tasks).
      * @param array $candidateLabels Candidate labels (for zero-shot classification tasks).
      * @param string|null $imageUrl URL or path to an image (for vision tasks like classification or object detection).
+     * @param string|null $audioPath
      * @param float $threshold Confidence threshold (for object detection / image tasks).
      * @return mixed Returns the output of the executed task.
      */
@@ -44,6 +45,7 @@ class Pipeline
         int $topK = 1,
         array $candidateLabels = [],
         ?string $imageUrl = null,
+        ?string $audioPath = null,
         float $threshold = 0.5,
     ): mixed {
         $output = TaskFactory::create($task)->execute([
@@ -61,6 +63,7 @@ class Pipeline
             'topK' => $topK,
             'candidateLabels' => $candidateLabels,
             'imageUrl' => $imageUrl,
+            'audioPath' => $audioPath,
             'threshold' => $threshold
         ]);
 

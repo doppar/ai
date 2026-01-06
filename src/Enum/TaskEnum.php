@@ -48,4 +48,7 @@ enum TaskEnum: string
 
     // Detect and localize objects within an image
     case OBJECT_DETECTION = 'object-detection';
+
+    // Defines the task type for automatic speech recognition (ASR)
+    case AUTOMATIC_SPEECH_RECOGNITION = 'automatic-speech-recognition';
 }
