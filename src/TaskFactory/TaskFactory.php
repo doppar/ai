@@ -19,6 +19,7 @@ use Doppar\AI\TaskFactory\Task\{
     Embedding,
     ImageCaption,
     ObjectDetection,
+    SpeechRecognition,
     ZeroShotImageClassification
 };
 
@@ -43,6 +44,7 @@ class TaskFactory
         ImageCaption::TASK->value => ImageCaption::class,
         ZeroShotImageClassification::TASK->value => ZeroShotImageClassification::class,
         ObjectDetection::TASK->value => ObjectDetection::class,
+        SpeechRecognition::TASK->value => SpeechRecognition::class,
     ];
 
     /**
