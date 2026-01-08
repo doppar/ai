@@ -1,5 +1,13 @@
 # Release Notes
 
+## v1.2.0 - 2026-01-06
+
+### What's Changed
+
+* Add speech recognition support (convert audio to text) by [@techmahedy](https://github.com/techmahedy) in https://github.com/doppar/ai/pull/35
+
+**Full Changelog**: https://github.com/doppar/ai/compare/v1.1.3...v1.2.0
+
 ## v1.1.3 - 2025-12-31
 
 ### What's Changed
