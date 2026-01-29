@@ -12,7 +12,7 @@ class TranslateCommand extends Command
 {
     protected $name = 'ai:translate {agent} {langFrom} {langTo} {model?}';
 
-    protected function handle(): int
+    public function handle(): int
     {
         return $this->withTiming(function () {
 
@@ -35,7 +35,7 @@ class TranslateCommand extends Command
                     break;
                 default:
                     throw new \Exception('Agent not found for translation, use "gemini", "openai" or "claude"');
-            };            
+            };
 
             //ask question
             $apiKey = $this->secret('What is your api key?');
@@ -44,7 +44,7 @@ class TranslateCommand extends Command
                 ->withKey($apiKey)
                 ->model($model)
                 ->translateLocalization($langFrom, $langTo);
-                
+
             $this->newLine();
             $this->info(count($response) . ' files translated');
             $this->newLine();

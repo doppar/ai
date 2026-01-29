@@ -10,7 +10,7 @@ class RunAICommand extends Command
 {
     protected $name = 'ai:run {task}';
 
-    protected function handle(): int
+    public function handle(): int
     {
         return $this->withTiming(function () {
 
