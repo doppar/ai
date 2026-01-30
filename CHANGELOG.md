@@ -1,5 +1,13 @@
 # Release Notes
 
+## v1.2.1 - 2026-01-29
+
+### What's Changed
+
+* console command handle() method dependency injection: by [@techmahedy](https://github.com/techmahedy) in https://github.com/doppar/ai/pull/36
+
+**Full Changelog**: https://github.com/doppar/ai/compare/v1.2.0...v1.2.1
+
 ## v1.2.0 - 2026-01-06
 
 ### What's Changed
