@@ -1,5 +1,13 @@
 # Release Notes
 
+## v1.3.0 - 2026-02-23
+
+### What's Changed
+
+* add OpenRouter by [@rrr63](https://github.com/rrr63) in https://github.com/doppar/ai/pull/37
+
+**Full Changelog**: https://github.com/doppar/ai/compare/v1.2.1...v1.3.0
+
 ## v1.2.1 - 2026-01-29
 
 ### What's Changed
