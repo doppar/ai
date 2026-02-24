@@ -103,6 +103,9 @@ class Claude implements AgentInterface
                 case 'user':
                     $messages[] = Message::ofUser($item['content']);
                     break;
+                case 'assistant':
+                    $messages[] = Message::ofAssistant($item['content']);
+                    break;
                 default:
                     throw new InvalidArgumentException("Unknown role : {$item['role']}");
             }

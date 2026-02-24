@@ -3,6 +3,7 @@
 namespace Doppar\AI;
 
 use Doppar\AI\AgentFactory\AgentInterface;
+use Doppar\AI\Store\StoreInterface;
 
 class Agent
 {
@@ -54,6 +55,13 @@ class Agent
      * @var string|null
      */
     protected ?string $host = null;
+
+    /**
+     * Store instance for persisting agent state
+     *
+     * @var StoreInterface|null
+     */
+    protected ?StoreInterface $store = null;
 
     /**
      * Create a new Agent instance
@@ -169,6 +177,20 @@ class Agent
     }
 
     /**
+     * Add an assistant message
+     *
+     * @param string $content
+     * @return self
+     */
+    public function assistant(string $content): self
+    {
+        return $this->message([
+            'role' => 'assistant',
+            'content' => $content,
+        ]);
+    }
+
+    /**
      * Set parameters
      *
      * @param array $params
@@ -254,6 +276,70 @@ class Agent
     public function withHost(string $host): self
     {
         $this->host = $host;
+
+        return $this;
+    }
+
+    /**
+     * Set the store instance and save messages with a key
+     *
+     * @param StoreInterface $store
+     * @param string $key
+     * @return self
+     */
+    public function withStore(StoreInterface $store, ?string $key = null): self
+    {
+        $this->store = $store;
+
+        if ($key !== null) {
+            $this->store->store($key, $this->messages);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Store the message history in the configured store
+     *
+     * @param string $key
+     * @param mixed $response
+     * @return bool
+     */
+    public function store(string $key, mixed $response = null): bool
+    {
+        if ($this->store === null) {
+            throw new \Exception('No store configured. Use withStore() to set a store instance.');
+        }
+
+        $messagesToStore = $this->messages;
+
+        if ($response !== null) {
+            $messagesToStore[] = [
+                'role' => 'assistant',
+                'content' => $response,
+            ];
+        }
+
+        return $this->store->store($key, $messagesToStore);
+    }
+
+    /**
+     * Load the complete message history from the configured store
+     *
+     * @param string $key
+     * @return self
+     */
+    public function loadMessages(string $key): self
+    {
+        if ($this->store === null) {
+            throw new \Exception('No store configured. Use withStore() to set a store instance.');
+        }
+
+        $messages = $this->store->load($key);
+        
+        if ($messages !== null) {
+            $this->messages = $messages;
+        }
 
         return $this;
     }
