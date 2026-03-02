@@ -50,6 +50,13 @@ class Agent
     protected bool $complete = false;
 
     /**
+     * Indicates whether the agent should stream the response
+     *
+     * @var bool
+     */
+    protected bool $streaming = false;
+
+    /**
      * The host to be used for self host LLM (e.g., GPT model)
      *
      * @var string|null
@@ -242,6 +249,18 @@ class Agent
     }
 
     /**
+     * Enable streaming mode
+     *
+     * @return self
+     */
+    public function withStreaming(): self
+    {
+        $this->streaming = true;
+
+        return $this;
+    }
+
+    /**
      * Execute and get response
      *
      * @return mixed
@@ -258,13 +277,35 @@ class Agent
      */
     public function execute(): mixed
     {
+        $agent = $this->agentClass::create(
+            key: $this->key,
+            model: $this->model,
+            config: ['host' => $this->host]
+        )->setMessage($this->messages);
+
+        if ($this->streaming) {
+            return $agent->stream($this->params);
+        }
+
+        return $agent->execute($this->params, $this->complete);
+    }
+
+    /**
+     * Stream the agent response
+     *
+     * @return \Generator
+     */
+    public function stream(): \Generator
+    {
+        $this->streaming = true;
+        
         return $this->agentClass::create(
             key: $this->key,
             model: $this->model,
             config: ['host' => $this->host]
         )
             ->setMessage($this->messages)
-            ->execute($this->params, $this->complete);
+            ->stream($this->params);
     }
 
     /**
