@@ -81,6 +81,42 @@ class Claude implements AgentInterface
     }
 
     /**
+     * Streams the model response in real-time.
+     *
+     * This method enables streaming mode and yields text chunks as they arrive
+     * from the LLM, allowing for real-time display of the response.
+     *
+     * @param array<string, mixed> $params Additional parameters (temperature, max_tokens, etc.)
+     * @param ?string $textInput Optional text input to override messages
+     * @return \Generator<int, string, mixed, void> Yields text chunks as strings
+     * @throws \Exception If streaming fails or platform error occurs
+     */
+    public function stream(array $params, ?string $textInput = null): \Generator
+    {
+        $params['stream'] = true;
+
+        try {
+            $result = $this->platform->invoke(
+                $this->model,
+                $textInput ?? $this->messages,
+                $params
+            );
+
+            foreach ($result->asStream() as $chunk) {
+                if (!empty($chunk)) {
+                    yield $chunk;
+                }
+            }
+        } catch (\Throwable $e) {
+            throw new \Exception(
+                "Streaming failed for model {$this->model}: " . $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
+        }
+    }
+
+    /**
      * Converts raw message arrays into a MessageBag.
      *
      * @param array<int, array{role: string, content: string}> $data

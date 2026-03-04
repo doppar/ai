@@ -35,6 +35,15 @@ interface AgentInterface
     public function execute(array $params, bool $complete = false, ?string $textInput = null): mixed;
 
     /**
+     * Streams the agent's response in real-time using provided parameters.
+     *
+     * @param array $params
+     * @param ?string $textInput
+     * @return \Generator
+     */
+    public function stream(array $params, ?string $textInput = null): \Generator;
+
+    /**
      * Converts raw message data into a MessageBag instance.
      *
      * @param array $data
