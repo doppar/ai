@@ -1,5 +1,14 @@
 # Release Notes
 
+## 1.4.0 - 2026-03-04
+
+### What's Changed
+
+* (feat) Agent persistence with message history by [@rrr63](https://github.com/rrr63) in https://github.com/doppar/ai/pull/38
+* (feat) Add Streaming Response by [@rrr63](https://github.com/rrr63) in https://github.com/doppar/ai/pull/39
+
+**Full Changelog**: https://github.com/doppar/ai/compare/v1.3.0...1.4.0
+
 ## v1.3.0 - 2026-02-23
 
 ### What's Changed
