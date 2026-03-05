@@ -1,5 +1,13 @@
 # Release Notes
 
+## v1.4.1 - 2026-03-05
+
+### What's Changed
+
+* Fix: add support for explicit textInput in Pipeline execution missing for Gemini by [@techmahedy](https://github.com/techmahedy) in https://github.com/doppar/ai/pull/40
+
+**Full Changelog**: https://github.com/doppar/ai/compare/1.4.0...v1.4.1
+
 ## 1.4.0 - 2026-03-04
 
 ### What's Changed
