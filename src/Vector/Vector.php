@@ -5,9 +5,6 @@ namespace Doppar\AI\Vector;
 use Doppar\AI\Agent;
 use Doppar\AI\AgentFactory\Agent\OpenAI;
 
-/**
- * Helper class providing vector utilities for RAG (Retrieval Augmented Generation).
- */
 class Vector
 {
     /**

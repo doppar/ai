@@ -75,7 +75,7 @@ class Gemini implements AgentInterface
      */
     public function execute(array $params, bool $complete = false, ?string $textInput = null): mixed
     {
-        $result = $this->platform->invoke($this->model, $this->messages, $params);
+        $result = $this->platform->invoke($this->model, $textInput ?? $this->messages, $params);
 
         return $complete ? $result : $result->asText();
     }
@@ -98,7 +98,7 @@ class Gemini implements AgentInterface
         try {
             $result = $this->platform->invoke(
                 $this->model,
-                $this->messages,
+                $textInput ?? $this->messages,
                 $params
             );
 
