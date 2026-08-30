@@ -2,12 +2,12 @@
 
 namespace Doppar\AI;
 
-use Phaseolies\Providers\ServiceProvider;
+use Phaseolies\Launchers\ServiceLauncher;
 use Doppar\AI\Console\Commands\RunAICommand;
 use Codewithkyrian\Transformers\Transformers;
 use Doppar\AI\Console\Commands\TranslateCommand;
 
-class AIServiceProvider extends ServiceProvider
+class AILauncher extends ServiceLauncher
 {
     /**
      * Register services and bindings into the container.
@@ -20,7 +20,7 @@ class AIServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot()
+    public function launch()
     {
         Transformers::setup()
             ->setCacheDir(storage_path('app/transformers'))
