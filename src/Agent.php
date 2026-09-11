@@ -447,14 +447,14 @@ class Agent
      */
     public function translateLocalization(string $langFrom, string $langTo): array
     {
-        if (!file_exists(base_path() . "/lang/$langFrom")) {
-            throw new \Exception("Folder " . base_path() . "/lang/$langFrom does not exist");
+        if (!file_exists(lang_path($langFrom))) {
+            throw new \Exception("Folder " . lang_path($langFrom) . " does not exist");
         }
-        if (!file_exists(base_path() . "/lang/$langTo")) {
-            mkdir(base_path() . "/lang/$langTo");
+        if (!file_exists(lang_path($langTo))) {
+            mkdir(lang_path($langTo), 0755, true);
         }
 
-        $files = glob(base_path() . "/lang/$langFrom/*");
+        $files = glob(lang_path($langFrom) . '/*');
         $results = [];
         foreach ($files as $file) {
             $content = file_get_contents($file);
@@ -463,7 +463,7 @@ class Agent
             if (strpos($results[count($results) - 1], "\n") === 0) {
                 $results[count($results) - 1] = substr($results[count($results) - 1], 1);
             }
-            file_put_contents(base_path() . "/lang/$langTo/" . basename($file), $results[count($results) - 1]);
+            file_put_contents(lang_path($langTo) . DIRECTORY_SEPARATOR . basename($file), $results[count($results) - 1]);
         }
 
         return $results;
