@@ -21,9 +21,12 @@ class Embedding implements TaskInterface
      *                      [
      *                          'data' => string|array,     // The text(s) to embed
      *                          'model' => ?string,          // Optional: custom model name
+     *                          'pooling' => ?string,         // Optional: 'mean' (default) or 'none'
+     *                          'normalize' => ?bool,         // Optional: defaults to true
      *                      ]
      *
-     * @return mixed Returns the embedding result (usually a numeric vector or array of vectors)
+     * @return mixed The pipeline result — an array of floats when pooled (the default),
+     *                or a Tensor when 'pooling' => 'none' is explicitly requested.
      */
     public function execute(mixed $datas): mixed
     {
@@ -31,8 +34,19 @@ class Embedding implements TaskInterface
             $datas['model'] = 'Xenova/all-MiniLM-L6-v2';
         }
 
-        $embedder = pipeline(self::TASK->value, $datas['model']);
+        // The underlying transformers pipeline has no "embedding" task of its
+        // own — embeddings are produced by the "feature-extraction" task.
+        // TaskEnum::EMBEDDING stays the public-facing task name; only the
+        // pipeline() call underneath needs the library's real task string.
+        $embedder = pipeline(TaskEnum::FEATURE_EXTRACTION->value, $datas['model']);
 
-        return $embedder($datas['data']);
+        // Without pooling, feature-extraction returns one vector per token,
+        // which isn't comparable between texts of different lengths. Mean
+        // pooling collapses that into a single fixed-size sentence vector.
+        return $embedder(
+            $datas['data'],
+            pooling: $datas['pooling'] ?? 'mean',
+            normalize: $datas['normalize'] ?? true,
+        );
     }
 }
