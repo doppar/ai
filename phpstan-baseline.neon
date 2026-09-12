@@ -1,0 +1,307 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Argument of an invalid type list\<string\>\|false supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/Agent.php
+
+		-
+			message: '#^Method Doppar\\AI\\Agent\:\:embedding\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Agent.php
+
+		-
+			message: '#^Method Doppar\\AI\\Agent\:\:message\(\) has parameter \$message with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Agent.php
+
+		-
+			message: '#^Method Doppar\\AI\\Agent\:\:messages\(\) has parameter \$messages with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Agent.php
+
+		-
+			message: '#^Method Doppar\\AI\\Agent\:\:translate\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Agent.php
+
+		-
+			message: '#^Method Doppar\\AI\\Agent\:\:translateLocalization\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Agent.php
+
+		-
+			message: '#^Method Doppar\\AI\\Agent\:\:withParams\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Agent.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$languageFrom$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Agent.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$languageTo$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Agent.php
+
+		-
+			message: '#^Parameter \#1 \$haystack of function strpos expects string, array\<string\>\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Agent.php
+
+		-
+			message: '#^Parameter \#1 \$string of function substr expects string, array\<string\>\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Agent.php
+
+		-
+			message: '#^Parameter \#3 \$content of method Doppar\\AI\\Agent\:\:translate\(\) expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Agent.php
+
+		-
+			message: '#^Property Doppar\\AI\\Agent\:\:\$messages \(array\<int, array\{role\: string, content\: string\}\>\) does not accept non\-empty\-array\<int, array\>\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Agent.php
+
+		-
+			message: '#^Method Doppar\\AI\\AgentFactory\\Agent\\Claude\:\:create\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/AgentFactory/Agent/Claude.php
+
+		-
+			message: '#^Offset ''content'' on array\{role\: string, content\: string\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: src/AgentFactory/Agent/Claude.php
+
+		-
+			message: '#^Offset ''role'' on array\{role\: string, content\: string\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: src/AgentFactory/Agent/Claude.php
+
+		-
+			message: '#^Parameter \#1 \$model of method Symfony\\AI\\Platform\\Platform\:\:invoke\(\) expects non\-empty\-string, string given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/AgentFactory/Agent/Claude.php
+
+		-
+			message: '#^Method Doppar\\AI\\AgentFactory\\Agent\\Gemini\:\:create\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/AgentFactory/Agent/Gemini.php
+
+		-
+			message: '#^Offset ''content'' on array\{role\: string, content\: string\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: src/AgentFactory/Agent/Gemini.php
+
+		-
+			message: '#^Offset ''role'' on array\{role\: string, content\: string\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: src/AgentFactory/Agent/Gemini.php
+
+		-
+			message: '#^Parameter \#1 \$model of method Symfony\\AI\\Platform\\Platform\:\:invoke\(\) expects non\-empty\-string, string given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/AgentFactory/Agent/Gemini.php
+
+		-
+			message: '#^Method Doppar\\AI\\AgentFactory\\Agent\\OpenAI\:\:create\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/AgentFactory/Agent/OpenAI.php
+
+		-
+			message: '#^Offset ''content'' on array\{role\: string, content\: string\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: src/AgentFactory/Agent/OpenAI.php
+
+		-
+			message: '#^Offset ''role'' on array\{role\: string, content\: string\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: src/AgentFactory/Agent/OpenAI.php
+
+		-
+			message: '#^Parameter \#1 \$model of method Symfony\\AI\\Platform\\Platform\:\:invoke\(\) expects non\-empty\-string, string given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/AgentFactory/Agent/OpenAI.php
+
+		-
+			message: '#^Method Doppar\\AI\\AgentFactory\\Agent\\OpenRouter\:\:create\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/AgentFactory/Agent/OpenRouter.php
+
+		-
+			message: '#^Offset ''content'' on array\{role\: string, content\: string\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: src/AgentFactory/Agent/OpenRouter.php
+
+		-
+			message: '#^Offset ''role'' on array\{role\: string, content\: string\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: src/AgentFactory/Agent/OpenRouter.php
+
+		-
+			message: '#^Parameter \#1 \$model of method Symfony\\AI\\Platform\\Platform\:\:invoke\(\) expects non\-empty\-string, string given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/AgentFactory/Agent/OpenRouter.php
+
+		-
+			message: '#^Deprecated in PHP 8\.1\: Required parameter \$model follows optional parameter \$key\.$#'
+			identifier: parameter.requiredAfterOptional
+			count: 1
+			path: src/AgentFactory/Agent/SelfHost.php
+
+		-
+			message: '#^Method Doppar\\AI\\AgentFactory\\Agent\\SelfHost\:\:__construct\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/AgentFactory/Agent/SelfHost.php
+
+		-
+			message: '#^Method Doppar\\AI\\AgentFactory\\Agent\\SelfHost\:\:create\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/AgentFactory/Agent/SelfHost.php
+
+		-
+			message: '#^Offset ''content'' on array\{role\: string, content\: string\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: src/AgentFactory/Agent/SelfHost.php
+
+		-
+			message: '#^Offset ''role'' on array\{role\: string, content\: string\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: src/AgentFactory/Agent/SelfHost.php
+
+		-
+			message: '#^Parameter \#1 \$model of method Symfony\\AI\\Platform\\Platform\:\:invoke\(\) expects non\-empty\-string, string given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/AgentFactory/Agent/SelfHost.php
+
+		-
+			message: '#^Method Doppar\\AI\\AgentFactory\\AgentInterface\:\:create\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/AgentFactory/AgentInterface.php
+
+		-
+			message: '#^Method Doppar\\AI\\AgentFactory\\AgentInterface\:\:execute\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/AgentFactory/AgentInterface.php
+
+		-
+			message: '#^Method Doppar\\AI\\AgentFactory\\AgentInterface\:\:hydrateMessages\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/AgentFactory/AgentInterface.php
+
+		-
+			message: '#^Method Doppar\\AI\\AgentFactory\\AgentInterface\:\:setMessage\(\) has parameter \$messages with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/AgentFactory/AgentInterface.php
+
+		-
+			message: '#^Method Doppar\\AI\\AgentFactory\\AgentInterface\:\:stream\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/AgentFactory/AgentInterface.php
+
+		-
+			message: '#^Parameter \#1 \$langFrom of method Doppar\\AI\\Agent\:\:translateLocalization\(\) expects string, array\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Console/Commands/TranslateCommand.php
+
+		-
+			message: '#^Parameter \#1 \$model of method Doppar\\AI\\Agent\:\:model\(\) expects string, array\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Console/Commands/TranslateCommand.php
+
+		-
+			message: '#^Parameter \#2 \$langTo of method Doppar\\AI\\Agent\:\:translateLocalization\(\) expects string, array\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Console/Commands/TranslateCommand.php
+
+		-
+			message: '#^Method Doppar\\AI\\Pipeline\:\:execute\(\) has parameter \$candidateLabels with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Pipeline.php
+
+		-
+			message: '#^Method Doppar\\AI\\Pipeline\:\:execute\(\) has parameter \$messages with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Pipeline.php
+
+		-
+			message: '#^Method Doppar\\AI\\Pipeline\:\:query\(\) has parameter \$item with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Pipeline.php
+
+		-
+			message: '#^Argument of an invalid type list\<string\>\|false supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/Store/CacheStore.php
+
+		-
+			message: '#^Parameter \#1 \$data of function unserialize expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Store/CacheStore.php
+
+		-
+			message: '#^Cannot call method applyChatTemplate\(\) on Codewithkyrian\\Transformers\\PreTrainedTokenizers\\PreTrainedTokenizer\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/TaskFactory/Task/TextGeneration.php
+
+		-
+			message: '#^Parameter \#1 \$inputs of callable Codewithkyrian\\Transformers\\Pipelines\\Pipeline expects array\<string\>\|string, array\|\(Codewithkyrian\\Transformers\\Tensor\\Tensor&iterable\<array\<int\>\|int\>\)\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/TaskFactory/Task/TextGeneration.php
+
+		-
+			message: '#^Offset ''automatic\-speech…''\|''embedding''\|''feature\-extraction''\|''fill\-mask''\|''image\-classification''\|''image\-to\-text''\|''object\-detection''\|''question\-answering''\|''sentiment\-analysis''\|''summarization''\|''text\-classification''\|''text\-generation''\|''token\-classification''\|''translation''\|''zero\-shot…''\|''zero\-shot\-image…'' on array\{sentiment\-analysis\: ''Doppar\\\\AI\\\\TaskFactory\\\\Task\\\\SentimentAnalysis'', text\-generation\: ''Doppar\\\\AI\\\\TaskFactory\\\\Task\\\\TextGeneration'', translation\: ''Doppar\\\\AI\\\\TaskFactory\\\\Task\\\\Translation'', zero\-shot\-classification\: ''Doppar\\\\AI\\\\TaskFactory\\\\Task\\\\ZeroShotClassification'', question\-answering\: ''Doppar\\\\AI\\\\TaskFactory\\\\Task\\\\QuestionAnswer'', fill\-mask\: ''Doppar\\\\AI\\\\TaskFactory\\\\Task\\\\FillMask'', text\-classification\: ''Doppar\\\\AI\\\\TaskFactory\\\\Task\\\\TextClassification'', summarization\: ''Doppar\\\\AI\\\\TaskFactory\\\\Task\\\\Summarization'', \.\.\.\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: src/TaskFactory/TaskFactory.php
