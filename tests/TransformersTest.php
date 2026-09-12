@@ -2,10 +2,12 @@
 
 use Doppar\AI\Pipeline;
 use Doppar\AI\Enum\TaskEnum;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 
 class TransformersTest extends TestCase
 {
+    #[IgnoreDeprecations('curl_close\(\) is deprecated')]
     public function testSentimentPositive()
     {
         $result = $this->executeSentiment('I absolutely love this product! Best purchase ever!');

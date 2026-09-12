@@ -3,6 +3,7 @@ composer.lock
 .phpunit.result.cache
 .php-cs-fixer.cache
 .phpstan/
+.phpstan.cache/
 .idea/
 .vscode/
 *.swp
