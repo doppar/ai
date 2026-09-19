@@ -1,5 +1,17 @@
 # Release Notes
 
+## 4.0.0 - 2026-09-16
+
+### What's Changed
+
+* ready for doppar 4.x by [@techmahedy](https://github.com/techmahedy) in https://github.com/doppar/ai/pull/41
+* tests.yml for php8.5 by [@techmahedy](https://github.com/techmahedy) in https://github.com/doppar/ai/pull/42
+* fix unit test deprecation by [@techmahedy](https://github.com/techmahedy) in https://github.com/doppar/ai/pull/43
+* Fix embedding task never actually producing usable vectors by [@techmahedy](https://github.com/techmahedy) in https://github.com/doppar/ai/pull/44
+* readme.md updated for 4.x version: by [@techmahedy](https://github.com/techmahedy) in https://github.com/doppar/ai/pull/45
+
+**Full Changelog**: https://github.com/doppar/ai/compare/v1.4.1...4.0.0
+
 ## v1.4.1 - 2026-03-05
 
 ### What's Changed
