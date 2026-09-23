@@ -4,6 +4,9 @@ namespace Doppar\AI;
 
 use Doppar\AI\AgentFactory\AgentInterface;
 use Doppar\AI\Store\StoreInterface;
+use Symfony\AI\Agent\AgentInterface as SymfonyAgentInterface;
+use Symfony\AI\Agent\Memory\MemoryProviderInterface;
+use Symfony\AI\Agent\Memory\StaticMemoryProvider;
 
 class Agent
 {
@@ -69,6 +72,34 @@ class Agent
      * @var StoreInterface|null
      */
     protected ?StoreInterface $store = null;
+
+    /**
+     * Tool objects (each carrying #[AsTool] on its class) the model may call while executing.
+     *
+     * @var array<int, object>
+     */
+    protected array $tools = [];
+
+    /**
+     * Memory providers whose content is injected into the system prompt before every call.
+     *
+     * @var array<int, MemoryProviderInterface>
+     */
+    protected array $memoryProviders = [];
+
+    /**
+     * The DTO class name or instance the response should be constrained to and deserialized into, or null for plain text.
+     *
+     * @var string|object|null
+     */
+    protected string|object|null $responseFormat = null;
+
+    /**
+     * This agent's name, used for MultiAgent handoff routing and logging.
+     *
+     * @var string|null
+     */
+    protected ?string $name = null;
 
     /**
      * Create a new Agent instance
@@ -261,6 +292,71 @@ class Agent
     }
 
     /**
+     * Register tool objects (classes carrying #[AsTool] on themselves)
+     *
+     * @param array<int, object> $tools
+     * @return self
+     */
+    public function withTools(array $tools): self
+    {
+        $this->tools = $tools;
+
+        return $this;
+    }
+
+    /**
+     * Register memory providers whose content is injected into the system prompt before every call
+     *
+     * @param iterable<MemoryProviderInterface> $memoryProviders
+     * @return self
+     */
+    public function withMemory(iterable $memoryProviders): self
+    {
+        $this->memoryProviders = is_array($memoryProviders) ? $memoryProviders : iterator_to_array($memoryProviders);
+
+        return $this;
+    }
+
+    /**
+     * Sugar for withMemory()
+     *
+     * @param string ...$facts
+     * @return self
+     */
+    public function remember(string ...$facts): self
+    {
+        $this->memoryProviders[] = new StaticMemoryProvider(...$facts);
+
+        return $this;
+    }
+
+    /**
+     * Request the model's response be constrained to
+     *
+     * @param string|object $responseFormat
+     * @return self
+     */
+    public function asStructured(string|object $responseFormat): self
+    {
+        $this->responseFormat = $responseFormat;
+
+        return $this;
+    }
+
+    /**
+     * Name this agent, used for MultiAgent handoff routing and logging.
+     *
+     * @param string $name
+     * @return self
+     */
+    public function named(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
      * Execute and get response
      *
      * @return mixed
@@ -277,11 +373,7 @@ class Agent
      */
     public function execute(): mixed
     {
-        $agent = $this->agentClass::create(
-            key: $this->key,
-            model: $this->model,
-            config: ['host' => $this->host]
-        )->setMessage($this->messages);
+        $agent = $this->buildProviderAgent();
 
         if ($this->streaming) {
             return $agent->stream($this->params);
@@ -298,14 +390,50 @@ class Agent
     public function stream(): \Generator
     {
         $this->streaming = true;
-        
-        return $this->agentClass::create(
+
+        return $this->buildProviderAgent()->stream($this->params);
+    }
+
+    /**
+     * Expose the underlying Symfony AI agent
+     *
+     * @return SymfonyAgentInterface
+     */
+    public function toAgent(): SymfonyAgentInterface
+    {
+        return $this->buildProviderAgent()->toAgent();
+    }
+
+    /**
+     * Build and configure the underlying provider agent
+     *
+     * @return AgentInterface
+     */
+    protected function buildProviderAgent(): AgentInterface
+    {
+        $agent = $this->agentClass::create(
             key: $this->key,
             model: $this->model,
             config: ['host' => $this->host]
-        )
-            ->setMessage($this->messages)
-            ->stream($this->params);
+        )->setMessage($this->messages);
+
+        if ([] !== $this->tools) {
+            $agent->withTools($this->tools);
+        }
+
+        if ([] !== $this->memoryProviders) {
+            $agent->withMemory($this->memoryProviders);
+        }
+
+        if (null !== $this->responseFormat) {
+            $agent->asStructured($this->responseFormat);
+        }
+
+        if (null !== $this->name) {
+            $agent->named($this->name);
+        }
+
+        return $agent;
     }
 
     /**
