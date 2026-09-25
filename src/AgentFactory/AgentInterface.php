@@ -55,7 +55,7 @@ interface AgentInterface
 
     /**
      * Register tool objects (classes carrying #[AsTool] on themselves) the
-     * model may call during execute()/stream(). Each
+     * model may call during execute()/stream().
      *
      * @param array<int, object> $tools
      * @return static
@@ -92,6 +92,7 @@ interface AgentInterface
      *
      * @param string $name
      * @return static
+     * @throws \RuntimeException When $name is empty.
      */
     public function named(string $name): static;
 

@@ -3,6 +3,7 @@
 namespace Doppar\AI\AgentFactory\Agent;
 
 use InvalidArgumentException;
+use RuntimeException;
 use Symfony\AI\Platform\PlatformInterface;
 use Symfony\AI\Platform\Message\Message;
 use Symfony\AI\Platform\Message\MessageBag;
@@ -13,6 +14,7 @@ use Symfony\AI\Agent\Memory\MemoryInputProcessor;
 use Symfony\AI\Agent\Toolbox\AgentProcessor;
 use Symfony\AI\Agent\Toolbox\Toolbox;
 use Doppar\AI\AgentFactory\AgentInterface;
+use Doppar\AI\AgentFactory\Processor\ResponseFormatProcessor;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -184,6 +186,10 @@ abstract class AbstractAgent implements AgentInterface
      */
     public function named(string $name): static
     {
+        if ('' === $name) {
+            throw new RuntimeException('$name must not be empty.');
+        }
+
         $this->name = $name;
         $this->agent = null;
 
@@ -199,7 +205,9 @@ abstract class AbstractAgent implements AgentInterface
             return $this->agent;
         }
 
-        $inputProcessors = [];
+        // Resolved lazily so toAgent()->call() honours asStructured() just
+        // like execute() does, even if it is called after toAgent().
+        $inputProcessors = [new ResponseFormatProcessor(fn(): string|object|null => $this->responseFormat)];
         $outputProcessors = [];
 
         if ([] !== $this->memoryProviders) {

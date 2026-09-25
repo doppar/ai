@@ -2,6 +2,7 @@
 
 namespace Doppar\AI;
 
+use RuntimeException;
 use Doppar\AI\AgentFactory\AgentInterface;
 use Doppar\AI\Store\StoreInterface;
 use Symfony\AI\Agent\AgentInterface as SymfonyAgentInterface;
@@ -348,9 +349,14 @@ class Agent
      *
      * @param string $name
      * @return self
+     * @throws RuntimeException When $name is empty.
      */
     public function named(string $name): self
     {
+        if ('' === $name) {
+            throw new RuntimeException('$name must not be empty.');
+        }
+
         $this->name = $name;
 
         return $this;

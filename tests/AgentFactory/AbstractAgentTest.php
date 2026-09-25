@@ -141,4 +141,87 @@ class AbstractAgentTest extends TestCase
 
         $this->assertSame(\stdClass::class, $seenOptions['response_format'] ?? null);
     }
+
+    public function testNamedRejectsAnEmptyName(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('$name must not be empty.');
+
+        (new InMemoryTestAgent('key', 'model'))->named('');
+    }
+
+    public function testToAgentCallPreservesTheFormatSetByAsStructured(): void
+    {
+        /** @var array<string, mixed>|null $seenOptions */
+        $seenOptions = null;
+
+        $agent = new InMemoryTestAgent('key', 'model');
+        $agent->mockResult = function ($model, $input, $options) use (&$seenOptions): string {
+            $seenOptions = $options;
+
+            return '{}';
+        };
+        $agent->asStructured(\stdClass::class);
+
+        $agent->toAgent()->call(new MessageBag(\Symfony\AI\Platform\Message\Message::ofUser('hi')));
+
+        $this->assertSame(\stdClass::class, $seenOptions['response_format'] ?? null);
+    }
+
+    public function testToAgentHonoursAsStructuredCalledAfterToAgent(): void
+    {
+        /** @var array<string, mixed>|null $seenOptions */
+        $seenOptions = null;
+
+        $agent = new InMemoryTestAgent('key', 'model');
+        $agent->mockResult = function ($model, $input, $options) use (&$seenOptions): string {
+            $seenOptions = $options;
+
+            return '{}';
+        };
+
+        $symfonyAgent = $agent->toAgent();
+        $agent->asStructured(\stdClass::class);
+        $symfonyAgent->call(new MessageBag(\Symfony\AI\Platform\Message\Message::ofUser('hi')));
+
+        $this->assertSame(\stdClass::class, $seenOptions['response_format'] ?? null);
+    }
+
+    public function testToAgentCallDoesNotOverrideAnExplicitResponseFormat(): void
+    {
+        /** @var array<string, mixed>|null $seenOptions */
+        $seenOptions = null;
+
+        $agent = new InMemoryTestAgent('key', 'model');
+        $agent->mockResult = function ($model, $input, $options) use (&$seenOptions): string {
+            $seenOptions = $options;
+
+            return '{}';
+        };
+        $agent->asStructured(\stdClass::class);
+
+        $agent->toAgent()->call(
+            new MessageBag(\Symfony\AI\Platform\Message\Message::ofUser('hi')),
+            ['response_format' => \ArrayObject::class]
+        );
+
+        $this->assertSame(\ArrayObject::class, $seenOptions['response_format'] ?? null);
+    }
+
+    public function testToAgentCallWithoutAsStructuredSendsNoResponseFormat(): void
+    {
+        /** @var array<string, mixed>|null $seenOptions */
+        $seenOptions = null;
+
+        $agent = new InMemoryTestAgent('key', 'model');
+        $agent->mockResult = function ($model, $input, $options) use (&$seenOptions): string {
+            $seenOptions = $options;
+
+            return 'plain';
+        };
+
+        $agent->toAgent()->call(new MessageBag(\Symfony\AI\Platform\Message\Message::ofUser('hi')));
+
+        $this->assertArrayNotHasKey('response_format', $seenOptions ?? []);
+    }
 }
