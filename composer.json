@@ -34,7 +34,8 @@
         "symfony/ai-gemini-platform": "^0.5.0",
         "symfony/ai-open-ai-platform": "^0.5.0",
         "symfony/ai-generic-platform": "^0.5.0",
-        "symfony/ai-open-router-platform": "^0.5.0"
+        "symfony/ai-open-router-platform": "^0.5.0",
+        "symfony/event-dispatcher": "^7.3|^8.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
