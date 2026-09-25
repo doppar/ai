@@ -5,11 +5,6 @@ namespace Doppar\AI\AgentFactory\Processor;
 use Symfony\AI\Agent\Input;
 use Symfony\AI\Agent\InputProcessorInterface;
 
-/**
- * Applies the structured-output response format set via asStructured() to
- * calls made through the Symfony AI agent (toAgent()->call()), so they
- * behave the same as execute().
- */
 final class ResponseFormatProcessor implements InputProcessorInterface
 {
     /**
