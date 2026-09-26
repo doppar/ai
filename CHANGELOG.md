@@ -1,5 +1,13 @@
 # Release Notes
 
+## v4.1.0 - 2026-09-25
+
+### What's Changed
+
+* (feat) Add tools, memory, structured output, and multi-agent handoff support by [@techmahedy](https://github.com/techmahedy) in https://github.com/doppar/ai/pull/46
+
+**Full Changelog**: https://github.com/doppar/ai/compare/4.0.0...v4.1.0
+
 ## 4.0.0 - 2026-09-16
 
 ### What's Changed
